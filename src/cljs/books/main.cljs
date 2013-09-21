@@ -1,3 +1,3 @@
-(ns books.index)
+(ns books.main)
 
 (.write js/document "Hello, ClojureScript!")
