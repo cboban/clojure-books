@@ -1,6 +1,6 @@
-(ns Books.core-test
-  (:use clojure.test
-        Books.core))
+(ns books.core-test
+  (:require [clojure.test :refer :all]
+            [books.core :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."

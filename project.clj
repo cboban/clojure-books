@@ -9,7 +9,8 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/clojurescript "0.0-1889"]
                  [compojure "1.1.5"]
-                 [domina "1.0.1"]]
+                 [domina "1.0.2-SNAPSHOT"]
+                 [hiccups "0.2.0"]]
 
   ;; lein-cljsbuild plugin to build a CLJS project
   :plugins [
@@ -22,7 +23,7 @@
   ;; cljsbuild options configuration
   :cljsbuild {:builds
               [{;; CLJS source code path
-                :source-paths ["src/cljs"]
+                :source-paths ["src/cljs" "src/brepl"]
 
                 ;; Google Closure (CLS) options configuration
                 :compiler {;; CLS generated JS script filename
