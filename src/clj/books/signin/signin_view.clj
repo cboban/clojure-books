@@ -1,0 +1,46 @@
+(ns books.signin.signin-view
+  (:use (sandbar stateful-session))
+  (:require [books.neo4j :as n4j]
+	    [books.html-generator :as hg]
+	    [net.cgrand.enlive-html :as en]))
+
+(en/deftemplate signin
+  (hg/build-html-page [{:temp-sel [:div.container],
+			:comp "public/signin/forms.html",
+			:comp-sel [:div.user-forms]}])
+  []
+  [:title] (en/content "Sign in")
+  [:div.script] (en/content {:tag :script,
+			     :attrs {:src "js/signin.js"},
+			     :content nil})
+  [:div.script] (en/append {:tag :script,
+			    :attrs nil,
+			    :content "books.signin.jssignin.init();"}))
+
+(en/deftemplate home
+  (hg/build-html-page [{:temp-sel [:div.container],
+			:comp "public/home/dashboard.html",
+			:comp-sel [:div.dashboard]}])
+  []
+  [:title] (en/content "Dashboard")
+  [:div.script] (en/content {:tag :script,
+			     :attrs {:src "js/signin.js"},
+			     :content nil})
+  [:div.script] (en/append {:tag :script,
+			    :attrs nil,
+			    :content "books.signin.jssignin_home.init();"}))
+
+(en/deftemplate page-not-found
+  (hg/build-html-page [{:temp-sel [:div.container],
+			:comp "public/basic/404.html",
+			:comp-sel [:div.content]}])
+  [param]
+  [:title] (en/content param)
+  [:div.page-not-found] (en/content {:tag :div,
+				     :attrs nil,
+				     :content param}
+				    {:tag :div,
+				     :attrs nil,
+				     :content [{:tag :a,
+						:attrs {:href "/signin"},
+						:content "back"}]}))
