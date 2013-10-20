@@ -26,10 +26,10 @@
     []
     (do (destroy-session!)
 	(sninc/is-logged-in (sninv/home))))
-  (GET "/save-user"
+  (PUT "/register-user"
     request
  (do (session-pop! :login-try 1)
- (sninc/is-not-logged-in (sninc/save-user (:params request)))))
+ (sninc/is-not-logged-in (sninc/register-new-user (:params request)))))
   (POST "/signin"
     request
     (do (sninc/authenticate-user (:params request))

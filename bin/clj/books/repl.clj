@@ -17,13 +17,6 @@
   []
 
   (n4j/connect-neo4j)
-  (sninc/save-user {:name "boban"
-					            :surname "cirkovic"
-					            :email "boban@intellex.rs"
-					            :username "boban"
-					            :password "boban"
-					            :city "beograd"
-					            :country "Srbija"})
   
   (dosync (ref-set server (server/run-server)))
   (future (Thread/sleep 3000)

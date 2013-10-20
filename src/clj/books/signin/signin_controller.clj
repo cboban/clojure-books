@@ -2,9 +2,10 @@
   (:use (sandbar stateful-session))
   (:require [books.neo4j :as n4j]
 	    [books.signin.signin-view :as sninv]
+	    [books.json-helper :as jsonh]
 	    [books.signin.signin-validators :refer [create-user-errors]]))
 
-(defn save-user
+(defn register-new-user
   "Save newly registered user"
   [req-params]
   (if-let [user-errors (create-user-errors {:name (:name req-params)
@@ -15,13 +16,16 @@
 					    :city (:city req-params)
 					    :country (:country req-params)})]
     (println (str "user errors: " user-errors))
-    (n4j/create-node "user" {:name (:name req-params)
-			     :surname (:surname req-params)
-			     :email (:email req-params)
-			     :username (:username req-params)
-			     :password (:password req-params)
-			     :city (:city req-params)
-			     :country (:country req-params)})))
+    (do 
+      (n4j/create-node "user" {:name (:name req-params)
+			       :surname (:surname req-params)
+			       :email (:email req-params)
+			       :username (:username req-params)
+			       :password (:password req-params)
+			       :city (:city req-params)
+			       :country (:country req-params)})
+      (jsonh/output-message "OK" "User registered")
+      )))
 
 (defn update-user
   "Update user in neo4j database"

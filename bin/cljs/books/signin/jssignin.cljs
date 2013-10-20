@@ -2,98 +2,130 @@
   (:require [domina :as dom]
 	    [domina.events :as evts]
 	    [domina.css :as domcss]
-            [books.signin.signin-validators :refer [login-credential-errors
-                   create-user-errors]]))
+      [clojure.browser.net :as net]
+      [clojure.browser.event :as gevent]
+      [books.signin.signin-validators :refer [login-credential-errors create-user-errors]]))
+
+
 (defn prepend-errors
   "Prepend error"
   [errors]
-  (doseq [error errors]
-	 (dom/prepend! (dom/by-id "error-msgs")
-		       (str "<div class=\"help\">"error"</div>"))))
+  (do 
+    (doseq [error errors]
+	   (dom/prepend! (dom/by-class "alert-warning")
+		         (str "<div class=\"one-validation-message\">"error"</div>")))
+    (dom/set-style! (dom/by-class "alert-warning") "display" "block")))
 
-(defn validate-form
+(defn remove-errors
+  "Remove and hide errors data"
+  []
+  (do
+    (dom/destroy! (dom/by-class "one-validation-message"))
+    (dom/set-style! (dom/by-class "alert") "display" "none")))
+
+
+
+(defn validate-signin-form
   "Validate form"
   []
-  (do (dom/destroy! (dom/by-class "help"))
-  (if-let [errors (login-credential-errors {:username (dom/value (dom/by-id "username"))
-					    :password (dom/value (dom/by-id "password"))})]
+  (do (remove-errors)
+  (if-let [errors (login-credential-errors {:username (dom/value (dom/by-id "signinUsername"))
+					    :password (dom/value (dom/by-id "signinPassword"))})]
 	(do (prepend-errors (:username errors))
 	    (prepend-errors (:password errors))
 	    false)
 	true)))
 
-	(defn validate-regiser-form
-  "Validate form"
+
+(defn show-registration-form
+  "Hides login form and displays registration form"
   []
-  (do (dom/destroy! (dom/by-class "help"))
-  (if-let [errors (create-user-errors {:name (dom/value (dom/by-id "name"))
-          :surname (dom/value (dom/by-id "surname"))
-          :email (dom/value (dom/by-id "email"))
-          :username (dom/value (dom/by-id "username-reg"))
-          :password (dom/value (dom/by-id "password-reg"))
-          :city (dom/value (dom/by-id "city"))
-          :country (dom/value (dom/by-id "country"))})]
-  (do (prepend-errors (:name errors))
-      (prepend-errors (:surname errors))
-      (prepend-errors (:email errors))
-      (prepend-errors (:username-reg errors))
-      (prepend-errors (:password-reg errors))
-      (prepend-errors (:city errors))
-      (prepend-errors (:country errors))
-      false)
-  true)))
+  (let [registration (dom/by-class "form-registration") login (dom/by-class "form-signin")]
+    (remove-errors)
+    (dom/set-style! login "display" "none")
+    (dom/set-style! registration "display" "block")))
 
-(defn onready
-  "Swap updated content from response with current"
+
+
+(defn show-login-form
+  "Hides login form and displays registration form"
+  ([] (show-login-form true))
+  ([rmerrors]
+  (let [registration (dom/by-class "form-registration") login (dom/by-class "form-signin")]
+    (if (= rmerrors true) (remove-errors))
+    (dom/set-style! registration "display" "none")
+    (dom/set-style! login "display" "block")
+  )))
+
+
+
+(defn validate-registration-form
+ "Validate registration form"
+ []
+ (do (remove-errors)
+ (if-let [errors (create-user-errors {:name (dom/value (dom/by-id "registrationName"))
+         :surname (dom/value (dom/by-id "registrationSurname"))
+         :email (dom/value (dom/by-id "registrationEmail"))
+         :username (dom/value (dom/by-id "registrationUsername"))
+         :password (dom/value (dom/by-id "registrationPassword"))
+         :city (dom/value (dom/by-id "registrationCity"))
+         :country (dom/value (dom/by-id "registrationCountry"))})]
+ (do (prepend-errors (:name errors))
+     (prepend-errors (:surname errors))
+     (prepend-errors (:email errors))
+     (prepend-errors (:username errors))
+     (prepend-errors (:password errors))
+     (prepend-errors (:city errors))
+     (prepend-errors (:country errors))
+     false)
+ true)))
+
+
+
+(defn on-registration-response
+  "Show registration status message"
   [content]
-  (if (and (= (aget (aget content "currentTarget") "readyState") 4)
-	   (= (aget (aget content "currentTarget") "status") 200))
-      (do (dom/destroy! (dom/by-class "help"))
-	  (dom/append! (dom/by-id "error-msgs")
-		       (str "<div class=\"help\">"(aget (aget content "currentTarget") "responseText")"</div>")))
-))
+    (let [data (js->clj (.getResponseJson (.-target content)) :keywordize-keys true)]
+      (remove-errors)
+      (if (= (:status data) "OK")
+        (do
+          (dom/prepend! (dom/by-id "alertInfoMessage")  (str "<div class=\"one-validation-message\">"(:message data)"</div>"))
+          (dom/set-style! (dom/by-id "alertInfoMessage") "display" "block")
+          (show-login-form false))
+        (do
+          (dom/prepend! (dom/by-id "warningInfoMessage")  (str "<div class=\"one-validation-message\">" (:message data) "</div>"))
+          (dom/set-style! (dom/by-id "warningInfoMessage") "display" "block"))
+      )))
 
-(defn save-user
+
+
+(defn register-user
   "Save user XMLHttpReqest"
   []
-  (let [xmlhttp (js/XMLHttpRequest.)]
-	(aset xmlhttp "onreadystatechange" onready)
-	(.open xmlhttp "PUT" (str "/save-user?name="(dom/value (dom/by-id "name"))
-					    "&surname="(dom/value (dom/by-id "surname"))
-					    "&email="(dom/value (dom/by-id "email"))
-					    "&username="(dom/value (dom/by-id "username"))
-					    "&password="(dom/value (dom/by-id "password"))
-					    "&city="(dom/value (dom/by-id "city"))
-					    "&country="(dom/value (dom/by-id "country"))
-) true)
-	(.send xmlhttp)
+  (let [ajaxUrl (str "/register-user?name="(dom/value (dom/by-id "registrationName"))
+					    "&surname="(dom/value (dom/by-id "registrationSurname"))
+					    "&email="(dom/value (dom/by-id "registrationEmail"))
+					    "&username="(dom/value (dom/by-id "registrationUsername"))
+					    "&password="(dom/value (dom/by-id "registrationPassword"))
+					    "&city="(dom/value (dom/by-id "registrationCity"))
+					    "&country="(dom/value (dom/by-id "registrationCountry"))) xhr (net/xhr-connection)]
+      (gevent/listen xhr :error #(.log js/console "Error %1"))
+      (gevent/listen xhr :success on-registration-response)
+      (net/transmit xhr ajaxUrl "PUT" {:q "json"})
 ))
 
-(defn hide-register-pop-up
-  ""
-  []
-  (let [selector (dom/by-class "register")]
-	(if (= (re-find #"block" (dom/style selector "display")) "block")
-	    (dom/set-style! selector "display" "none"))))
 
 (defn ^:export init []
   (if (and js/document
 	   (.-getElementById js/document))
-    (let [login-form (dom/by-id "login-form")]
-	(set! (.-onsubmit login-form) validate-form)
-	(evts/listen! (dom/by-id "register")
-		      :click
-		      (fn []
-			  (let [selector (dom/by-class "register")]
-				(if (= (re-find #"none" (dom/style selector "display")) "none")
-				    (dom/set-style! selector "display" "block")))))
-	(evts/listen! (dom/by-id "exit")
-		      :click
-		      (fn [] (hide-register-pop-up)))
-	(evts/listen! (dom/by-id "register-btn")
-        :click
-        (fn [] (do (hide-register-pop-up)
-     (if (validate-regiser-form)
-         (save-user))
-         )))
+    (let [login-form (dom/by-id "signinForm") registration-form (dom/by-id "registrationForm")]
+	(set! (.-onsubmit login-form) validate-signin-form)
+  (set! (.-onsubmit registration-form) (fn [] (if (validate-registration-form) (register-user)) false))
+	
+  (evts/listen! (dom/by-class "registration-link")
+		       :click
+		       (fn [] (show-registration-form)))
+  (evts/listen! (dom/by-class "login-link")
+		       :click
+		       (fn [] (show-login-form)))
 )))

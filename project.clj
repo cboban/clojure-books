@@ -17,7 +17,7 @@
 		 [enlive "1.1.1"]
 		 [domina "1.0.2-SNAPSHOT"]
 		 [sandbar "0.4.0-SNAPSHOT"]
-		 [org.clojure/data.json "0.2.2"]
+		 [org.clojure/data.json "0.2.3"]
 		 [xml-apis/xml-apis "1.4.01"]
 		 [clj-webdriver "0.6.0"]
 		 [factual/factual-clojure-driver "1.5.1"]]

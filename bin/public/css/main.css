@@ -53,7 +53,7 @@ body {
 	text-align: right;
 }
 
-.user-forms .alert {
+.user-forms .alert-warning {
 	margin:auto;
 	max-width: 500px;
 	display:none;
