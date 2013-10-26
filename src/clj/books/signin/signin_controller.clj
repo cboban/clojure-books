@@ -2,6 +2,7 @@
   (:use (sandbar stateful-session))
   (:require [books.neo4j :as n4j]
 	    [books.signin.signin-view :as sninv]
+	    [books.home.home-view :as homev]
 	    [books.json-helper :as jsonh]
 	    [books.signin.signin-validators :refer [create-user-errors]]))
 
@@ -56,8 +57,9 @@
   [id]
   (n4j/delete-node "user" id))
 
+
 (defn authenticate-user
-  "Authenticate user if exists in databse"
+  "Authenticate user if exists in database"
   [req-params]
   (let [username (:username req-params)
 	password (:password req-params)]
@@ -86,6 +88,7 @@
 	(session-put! :country country))
 	(session-put! :login-try 1)))
 
+
 (defn is-logged-in
   "Checks if user is logged in"
   [response-fn]
@@ -99,4 +102,4 @@
   [response-fn]
   (if (= (session-get :id) nil)
       response-fn
-      (sninv/home)))
+      (homev/home)))

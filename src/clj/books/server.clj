@@ -8,6 +8,7 @@
 	    [compojure.route :as route]
 	    [books.signin.signin-view :as sninv]
 	    [books.signin.signin-controller :as sninc]
+	    [books.home.home-view :as homev]
       [books.neo4j :as n4j]
 	    [ring.adapter.jetty :as jetty]))
 
@@ -18,14 +19,14 @@
   ; to serve document root address
   (GET "/home"
     []
-    (sninc/is-logged-in (sninv/home)))
+    (sninc/is-logged-in (homev/home)))
   (GET "/signin"
     []
-    (sninc/is-logged-in (sninv/home)))
+    (sninc/is-logged-in (homev/home)))
   (GET "/signout"
     []
     (do (destroy-session!)
-	(sninc/is-logged-in (sninv/home))))
+	(sninc/is-logged-in (homev/home))))
   (PUT "/register-user"
     request
  (do (session-pop! :login-try 1)
@@ -33,7 +34,7 @@
   (POST "/signin"
     request
     (do (sninc/authenticate-user (:params request))
-	(sninc/is-logged-in (sninv/home))))
+	(sninc/is-logged-in (homev/home))))
   ; to serve static pages saved in resources/public directory
   (route/resources "/")
   ; if page is not found

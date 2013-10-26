@@ -41,7 +41,7 @@
                            valip.predicates
 			   books.signin.signin-validators]
 	      :builds
-		{:dev-signin
+		{:signin
 		 {;; CLJS source code path
 		  :source-paths ["src/brepl"
 				 "src/cljs/books/signin"]
@@ -55,14 +55,19 @@
 
 			     ;; generated JS code prettyfication
 			     :pretty-print true}}
-		 :prod-login
+   :home
 		 {;; CLJS source code path
-		  :source-paths ["src/cljs/books/signin"]
+		  :source-paths ["src/brepl"
+				 "src/cljs/books/home"]
 
 		  ;; Google Closure (CLS) options configuration
 		  :compiler {;; CLS generated JS script filename
-			     :output-to "resources/public/js/signin.js"
+			     :output-to "resources/public/js/home.js"
 
 			     ;; minimal JS optimization directive
-			     :optimizations :advanced}}
-		 }})
+			     :optimizations :whitespace
+
+			     ;; generated JS code prettyfication
+			     :pretty-print true}}
+		 }
+  })

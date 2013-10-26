@@ -18,5 +18,6 @@
    template selector where component, as second map property,
    is going to be appended. And component selector that represents
    part or all of component html file."
-  [files-and-selectors]
-  (reduce generate-html-resource (en/html-resource "public/template.html") files-and-selectors))
+  ([files-and-selectors] (build-html-page "home" files-and-selectors))
+  ([template files-and-selectors]
+  (reduce generate-html-resource (en/html-resource (str "public/templates/"template".html")) files-and-selectors)))

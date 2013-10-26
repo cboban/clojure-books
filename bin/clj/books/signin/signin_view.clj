@@ -5,7 +5,7 @@
 	    [net.cgrand.enlive-html :as en]))
 
 (en/deftemplate signin
-  (hg/build-html-page [{:temp-sel [:div.container],
+  (hg/build-html-page "signin" [{:temp-sel [:div.container],
 			:comp "public/signin/forms.html",
 			:comp-sel [:div.user-forms]}])
   []
@@ -17,21 +17,8 @@
 			    :attrs nil,
 			    :content "books.signin.jssignin.init();"}))
 
-(en/deftemplate home
-  (hg/build-html-page [{:temp-sel [:div.container],
-			:comp "public/home/dashboard.html",
-			:comp-sel [:div.dashboard]}])
-  []
-  [:title] (en/content "Dashboard")
-  [:div.script] (en/content {:tag :script,
-			     :attrs {:src "js/signin.js"},
-			     :content nil})
-  [:div.script] (en/append {:tag :script,
-			    :attrs nil,
-			    :content "books.signin.jssignin_home.init();"}))
-
 (en/deftemplate page-not-found
-  (hg/build-html-page [{:temp-sel [:div.container],
+  (hg/build-html-page "signin" [{:temp-sel [:div.container],
 			:comp "public/basic/404.html",
 			:comp-sel [:div.content]}])
   [param]
