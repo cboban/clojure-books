@@ -4,18 +4,22 @@
 	    [books.html-generator :as hg]
 	    [net.cgrand.enlive-html :as en]))
 
-(en/deftemplate signin
-  (hg/build-html-page "signin" [{:temp-sel [:div.container],
-			:comp "public/signin/forms.html",
-			:comp-sel [:div.user-forms]}])
-  []
+  (en/deftemplate signin
+    (hg/build-html-page "signin" [{:temp-sel [:div.container],
+			 :comp "public/signin/forms.html",
+			 :comp-sel [:div.user-forms]}])
+  [message]
   [:title] (en/content "Sign in")
   [:div.script] (en/content {:tag :script,
 			     :attrs {:src "js/signin.js"},
 			     :content nil})
   [:div.script] (en/append {:tag :script,
 			    :attrs nil,
-			    :content "books.signin.jssignin.init();"}))
+			    :content "books.signin.jssignin.init();"})
+  [:div#alertInfoMessage] (en/content (cond 
+                            (clojure.string/blank? message) "" 
+                            :else (str message))))
+
 
 (en/deftemplate page-not-found
   (hg/build-html-page "signin" [{:temp-sel [:div.container],
@@ -31,3 +35,5 @@
 				     :content [{:tag :a,
 						:attrs {:href "/signin"},
 						:content "back"}]}))
+ 
+  

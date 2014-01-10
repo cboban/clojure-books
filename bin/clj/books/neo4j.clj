@@ -2,6 +2,7 @@
   "Namespace for manipulating data from database"
   (:require [clojurewerkz.neocons.rest :as nr]
             [clojurewerkz.neocons.rest.nodes :as nn]
+            [clojurewerkz.neocons.rest.labels :as nl]
             [clojurewerkz.neocons.rest.relationships :as nrel]
 	    [clojurewerkz.neocons.rest.cypher :as cy]
 	    [clojure.string :refer [join]]))
@@ -60,10 +61,9 @@
 
 (defn create-node
   "Create node in neo4j db"
-  [index-type node-data]
+  [node-label node-data]
   (let [node (nn/create node-data)]
-    (add-node-key-to-indexes index-type (:id node))
-    (:id node)))
+    (nl/add node node-label)))
 
 (defn read-node
   "Read node by id from neo4j db"

@@ -1,5 +1,6 @@
 (ns books.signin.signin-controller
   (:use (sandbar stateful-session))
+  (:use [clojure.tools.logging :only (info error)])
   (:require [books.neo4j :as n4j]
 	    [books.signin.signin-view :as sninv]
 	    [books.home.home-view :as homev]
@@ -18,7 +19,7 @@
 					    :country (:country req-params)})]
     (println (str "user errors: " user-errors))
     (do 
-      (n4j/create-node "user" {:name (:name req-params)
+      (n4j/create-node "User" {:name (:name req-params)
 			       :surname (:surname req-params)
 			       :email (:email req-params)
 			       :username (:username req-params)
@@ -61,31 +62,24 @@
 (defn authenticate-user
   "Authenticate user if exists in database"
   [req-params]
+
   (let [username (:username req-params)
-	password (:password req-params)]
+        password (:password req-params)]
     (doseq [[id
 	     name
 	     surname
 		   email
        username
-	     age
 	     city
 	     country]
-	    (:data (n4j/cypher-query (str "start n=node("(clojure.string/join ","(n4j/get-type-indexes "user"))")
-					   where n.username? = \""username"\" and
-						 n.password? = \""password"\"
-					   return ID(n),
-						  n.name,
-						  n.surname,
-						  n.email,
-						  n.username,
-						  n.city,
-						  n.country")))]
+	    (:data (n4j/cypher-query (str "MATCH (u:User {username: \""(str username)"\", password: \""(str password)"\"}) RETURN u")))]
 	(session-put! :id id)
 	(session-put! :name name)
 	(session-put! :surname surname)
 	(session-put! :city city)
 	(session-put! :country country))
+    (if (= (session-get :id) nil)
+      (sninv/signin "Please login"))
 	(session-put! :login-try 1)))
 
 
@@ -93,7 +87,7 @@
   "Checks if user is logged in"
   [response-fn]
   (if (= (session-get :id) nil)
-      (sninv/signin)
+      (sninv/signin "Please login")
       (do (session-pop! :login-try 1)
 	  response-fn)))
 

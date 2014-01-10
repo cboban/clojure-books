@@ -11,7 +11,7 @@
   :dependencies [[org.clojure/clojure "1.5.1"]
 		 [compojure "1.1.5"]
 		 [com.cemerick/valip "0.3.2"]
-		 [clojurewerkz/neocons "1.1.0"]
+		 [clojurewerkz/neocons "2.0.0"]
 		 [ring/ring-core "1.2.0"]
 		 [ring/ring-jetty-adapter "1.1.0"]
 		 [enlive "1.1.1"]
@@ -20,7 +20,9 @@
 		 [org.clojure/data.json "0.2.3"]
 		 [xml-apis/xml-apis "1.4.01"]
 		 [clj-webdriver "0.6.0"]
-		 [factual/factual-clojure-driver "1.5.1"]]
+		 [factual/factual-clojure-driver "1.5.1"]
+     [org.clojure/tools.logging "0.2.6"]
+   ]
   ;:plugins [[lein2-eclipse "2.0.0"]]
 
   :main books.repl
