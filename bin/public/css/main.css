@@ -1,7 +1,6 @@
 body {
-  padding-top: 40px;
   padding-bottom: 40px;
-  background-color: #eee;
+  background-color: #ffffff;
 }
 
 .form-auth {
@@ -53,7 +52,7 @@ body {
 	text-align: right;
 }
 
-.user-forms .alert-warning {
+.user-forms .alert {
 	margin:auto;
 	max-width: 500px;
 	display:none;

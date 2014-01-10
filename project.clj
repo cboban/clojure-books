@@ -43,7 +43,7 @@
 	      :builds
 		{:signin
 		 {;; CLJS source code path
-		  :source-paths ["src/brepl"
+		  :source-paths [
 				 "src/cljs/books/signin"]
 
 		  ;; Google Closure (CLS) options configuration
@@ -57,7 +57,7 @@
 			     :pretty-print true}}
    :home
 		 {;; CLJS source code path
-		  :source-paths ["src/brepl"
+		  :source-paths [
 				 "src/cljs/books/home"]
 
 		  ;; Google Closure (CLS) options configuration
