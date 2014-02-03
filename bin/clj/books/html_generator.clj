@@ -1,6 +1,10 @@
 (ns books.html-generator
   "Namespace for generating html pages"
-  (:require [net.cgrand.enlive-html :as en]))
+  (:require 
+    [noir.io :as io]
+    [net.cgrand.enlive-html :as en]
+    [clostache.parser :as parser]
+    ))
 
 (defn generate-html-resource
   "Generates html resource from parameter template and map variable
@@ -21,3 +25,9 @@
   ([files-and-selectors] (build-html-page "home" files-and-selectors))
   ([template files-and-selectors]
   (reduce generate-html-resource (en/html-resource (str "public/templates/"template".html")) files-and-selectors)))
+
+
+(defn render 
+  "Replaces custom tags in HTML with provided parameters"
+  [template params]
+  (parser/render template params))

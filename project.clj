@@ -8,20 +8,22 @@
   :test-paths ["src/clj"]
   :resource-paths ["resources"]
 
-  :dependencies [[org.clojure/clojure "1.5.1"]
-		 [compojure "1.1.5"]
+  :dependencies [
+     [org.clojure/clojure "1.5.1"]
+		 [compojure "1.1.6"]
 		 [com.cemerick/valip "0.3.2"]
-		 [clojurewerkz/neocons "2.0.0"]
-		 [ring/ring-core "1.2.0"]
-		 [ring/ring-jetty-adapter "1.1.0"]
-		 [enlive "1.1.1"]
-		 [domina "1.0.2-SNAPSHOT"]
+		 [clojurewerkz/neocons "2.0.1"]
+     [javax.servlet/servlet-api "2.5"]
+		 [ring "1.2.1"]
+		 [enlive "1.1.5"]
+     [de.ubercode.clostache/clostache "1.3.1"]
+		 [domina "1.0.2"]
 		 [sandbar "0.4.0-SNAPSHOT"]
-		 [org.clojure/data.json "0.2.3"]
+		 [org.clojure/data.json "0.2.4"]
 		 [xml-apis/xml-apis "1.4.01"]
 		 [clj-webdriver "0.6.0"]
-		 [factual/factual-clojure-driver "1.5.1"]
-     [org.clojure/tools.logging "0.2.6"]
+     [org.clojure/clojurescript "0.0-2030"]
+     [lib-noir "0.7.9"]
    ]
   ;:plugins [[lein2-eclipse "2.0.0"]]
 
@@ -30,13 +32,13 @@
   :repl-init books.repl
 
   :plugins [;; cljsbuild plugin
-	    [lein-cljsbuild "0.3.2"]
+	    [lein-cljsbuild "1.0.1"]
 
 	    ;; ring plugin
-	    [lein-ring "0.8.5"]
+	    [lein-ring "0.8.10"]
 
 	    ;; codox plugin
-	    [codox "0.6.4"]]
+	    [codox "0.6.6"]]
 
   ;; cljsbuild options configuration
   :cljsbuild {:crossovers [valip.core 

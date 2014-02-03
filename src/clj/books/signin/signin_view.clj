@@ -8,7 +8,7 @@
     (hg/build-html-page "signin" [{:temp-sel [:div.container],
 			 :comp "public/signin/forms.html",
 			 :comp-sel [:div.user-forms]}])
-  [message]
+    [message]
   [:title] (en/content "Sign in")
   [:div.script] (en/content {:tag :script,
 			     :attrs {:src "js/signin.js"},

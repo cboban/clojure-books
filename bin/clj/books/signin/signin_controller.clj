@@ -66,27 +66,31 @@
   (let [username (:username req-params)
         password (:password req-params)]
     (doseq [[id
-	     name
-	     surname
-		   email
-       username
-	     city
-	     country]
-	    (:data (n4j/cypher-query (str "MATCH (u:User {username: \""(str username)"\", password: \""(str password)"\"}) RETURN u")))]
-	(session-put! :id id)
-	(session-put! :name name)
-	(session-put! :surname surname)
-	(session-put! :city city)
-	(session-put! :country country))
-    (if (= (session-get :id) nil)
-      (sninv/signin "Please login"))
+             name
+             surname
+             username
+             password
+             email
+             city
+             country]
+  (:data (n4j/cypher-query (str "MATCH (u:User {username: \""(str username)"\", password: \""(str password)"\"}) 
+						RETURN ID(u), 
+						u.name, 
+						u.surname, 
+						u.username, 
+						u.password, 
+						u.city, 
+						u.country")))]
+  (session-put! :user {:id id :name name :surname surname :city city :username username :country country}))
+    (if (= (session-get :user) nil)
+      (flash-put! :session-message-warning "Wrong username or password"))
 	(session-put! :login-try 1)))
 
 
 (defn is-logged-in
   "Checks if user is logged in"
   [response-fn]
-  (if (= (session-get :id) nil)
+  (if (= (session-get :user) nil)
       (sninv/signin "Please login")
       (do (session-pop! :login-try 1)
 	  response-fn)))
@@ -94,6 +98,6 @@
 (defn is-not-logged-in
   "Checks if user is logged in"
   [response-fn]
-  (if (= (session-get :id) nil)
+  (if (= (session-get :user) nil)
       response-fn
       (homev/home)))
