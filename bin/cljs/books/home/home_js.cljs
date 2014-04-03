@@ -6,5 +6,5 @@
 
 
 (defn ^:export init []
-  (smt "bobanddd"))
+ )
 

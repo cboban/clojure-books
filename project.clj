@@ -9,21 +9,21 @@
   :resource-paths ["resources"]
 
   :dependencies [
-     [org.clojure/clojure "1.5.1"]
+     [org.clojure/clojure "1.6.0"]
 		 [compojure "1.1.6"]
 		 [com.cemerick/valip "0.3.2"]
 		 [clojurewerkz/neocons "2.0.1"]
      [javax.servlet/servlet-api "2.5"]
-		 [ring "1.2.1"]
+		 [ring "1.2.2"]
 		 [enlive "1.1.5"]
      [de.ubercode.clostache/clostache "1.3.1"]
 		 [domina "1.0.2"]
 		 [sandbar "0.4.0-SNAPSHOT"]
 		 [org.clojure/data.json "0.2.4"]
-		 [xml-apis/xml-apis "1.4.01"]
+		 [xml-apis/xml-apis "2.0.2"]
 		 [clj-webdriver "0.6.0"]
      [org.clojure/clojurescript "0.0-2030"]
-     [lib-noir "0.7.9"]
+     [lib-noir "0.8.1"]
    ]
   ;:plugins [[lein2-eclipse "2.0.0"]]
 
@@ -45,7 +45,9 @@
                            valip.predicates
 			   books.signin.signin-validators]
 	      :builds
-		{:signin
+		{
+   
+   :signin
 		 {;; CLJS source code path
 		  :source-paths [
 				 "src/cljs/books/signin"]
@@ -59,6 +61,7 @@
 
 			     ;; generated JS code prettyfication
 			     :pretty-print true}}
+  
    :home
 		 {;; CLJS source code path
 		  :source-paths [
@@ -67,6 +70,21 @@
 		  ;; Google Closure (CLS) options configuration
 		  :compiler {;; CLS generated JS script filename
 			     :output-to "resources/public/js/home.js"
+
+			     ;; minimal JS optimization directive
+			     :optimizations :whitespace
+
+			     ;; generated JS code prettyfication
+			     :pretty-print true}}   
+  
+   :shelves
+		 {;; CLJS source code path
+		  :source-paths [
+				 "src/cljs/books/shelves"]
+
+		  ;; Google Closure (CLS) options configuration
+		  :compiler {;; CLS generated JS script filename
+			     :output-to "resources/public/js/shelves.js"
 
 			     ;; minimal JS optimization directive
 			     :optimizations :whitespace

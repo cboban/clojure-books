@@ -22293,6 +22293,6 @@ books.home.home_js.smt = function smt(param) {
   return alert(param)
 };
 books.home.home_js.init = function init() {
-  return books.home.home_js.smt.call(null, "bobanddd")
+  return null
 };
 goog.exportSymbol("books.home.home_js.init", books.home.home_js.init);

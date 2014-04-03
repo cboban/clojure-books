@@ -4,10 +4,8 @@
 	    [books.html-generator :as hg]
 	    [net.cgrand.enlive-html :as en]))
 
-
-
 (en/deftemplate home-template
-  (hg/build-html-page [{:temp-sel [:div.container],
+  (hg/build-html-page [{:temp-sel [:div.content],
 			:comp "public/home/dashboard.html" ,
 			:comp-sel [:div.dashboard]}])
   [param]
