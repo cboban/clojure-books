@@ -10,6 +10,7 @@
 	    [books.signin.signin-controller :as sninc]
 	    [books.home.home-view :as homev]
 	    [books.shelves.shelves-controller :as shelvec]
+	    [books.books.books-controller :as booksc]
       [books.neo4j :as n4j]
 	    [ring.adapter.jetty :as jetty]))
 
@@ -27,7 +28,8 @@
   (GET "/logout"
     []
     (do (destroy-session!)
-	(sninc/is-logged-in (homev/home))))
+    (sninc/is-logged-in (homev/home))))
+ 
   (GET "/shelves"
        []
        (shelvec/list))
@@ -35,6 +37,25 @@
        [action]
        (when-let [fun (ns-resolve 'books.shelves.shelves-controller (symbol action))]
         (apply fun [])))
+  (GET "/shelves/:action/:params"
+       [action params]
+       (when-let [fun (ns-resolve 'books.shelves.shelves-controller (symbol action))]
+        (apply fun [params])))
+  
+  
+  (GET "/books"
+       []
+       (booksc/search))
+  (GET "/books/:action"
+       [action]
+       (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]
+        (apply fun [])))
+  (GET "/books/:action/:params"
+       [action params]
+       (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]
+        (apply fun [params])))
+  
+  
   (PUT "/register-user"
     request
  (do (session-pop! :login-try 1)

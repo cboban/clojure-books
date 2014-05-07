@@ -24,7 +24,13 @@
   (shelvev/edit))
 
 
+(defn view
+  "Show books in shelve"
+  [id]
+  (shelvev/view))
+
+
 (defn delete
   "Remove existing shelve"
   [id]
-  )
+ )

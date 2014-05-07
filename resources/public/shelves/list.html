@@ -1,14 +1,14 @@
 <div class="shelves well">
 	<h2>Shelves</h2>
 	<hr/>
-	
+	<a href="/shelves/add" class="btn btn-lg btn-primary pull-right">Add new&nbsp;<i class="glyphicon glyphicon-plus"></i></a>
 	<table class="table">
        <thead>
          <tr>
            <th>#</th>
-           <th>First Name</th>
-           <th>Last Name</th>
-           <th>Username</th>
+           <th>Shelve name</th>
+           <th>Number of books</th>
+           <th>Actions</th>
          </tr>
        </thead>
        <tbody>
@@ -16,21 +16,33 @@
            <td>1</td>
            <td>Mark</td>
            <td>Otto</td>
-           <td>@mdo</td>
+           <td>
+				<a href="/shelves/view/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-eye-open"></i></a>
+				<a href="/shelves/edit/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
+				<a href="/shelves/delete/" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+			</td>
          </tr>
-         <tr>
-           <td>2</td>
-           <td>Jacob</td>
-           <td>Thornton</td>
-           <td>@fat</td>
-         </tr>
-         <tr>
-           <td>3</td>
-           <td>Larry</td>
-           <td>the Bird</td>
-           <td>@twitter</td>
-         </tr>
-       </tbody>
-     </table>
-
+		<tr>
+			<td>1</td>
+			<td>Mark</td>
+			<td>Otto</td>
+			<td><a href="/shelves/view/" class="btn btn-sm btn-primary"><i
+					class="glyphicon glyphicon-eye-open"></i></a> <a href="/shelves/edit/"
+				class="btn btn-sm btn-primary"><i
+					class="glyphicon glyphicon-pencil"></i></a> <a href="/shelves/delete/"
+				class="btn btn-sm btn-danger"><i
+					class="glyphicon glyphicon-trash"></i></a></td>
+		</tr>
+		<tr>
+			<td>1</td>
+			<td>Mark</td>
+			<td>Otto</td>
+			<td><a href="/shelves/view/" class="btn btn-sm btn-primary"><i
+					class="glyphicon glyphicon-eye-open"></i></a> <a href="/shelves/edit/"
+				class="btn btn-sm btn-primary"><i
+					class="glyphicon glyphicon-pencil"></i></a> <a href="/shelves/delete/"
+				class="btn btn-sm btn-danger"><i
+					class="glyphicon glyphicon-trash"></i></a></td>
+		</tr>
+	</table>
 </div>

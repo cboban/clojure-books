@@ -1,13 +1,24 @@
-<div class="shelves well">
-	<h2>Shelves</h2>
+<div class="books-search well">
+	<h2>Search books</h2>
 	<hr/>
-	<a href="/shelves/add" class="btn btn-lg btn-primary pull-right">Add new&nbsp;<i class="glyphicon glyphicon-plus"></i></a>
+	
+	<form id="bookSearchForm" class="form-horizontal">
+		<div class="form-group col-sm-10">
+			<div class="col-sm-12">
+				<input id="inputName" name="term" class="form-control" placeholder="Term" />
+			</div>
+		</div>
+		<div class="text-right col-sm-2">
+			<button type="submit" class="btn btn-primary col-sm-12">Search</button>
+		</div>
+	</form>
+	
 	<table class="table">
        <thead>
          <tr>
-           <th>#</th>
-           <th>Shelve name</th>
-           <th>Number of books</th>
+           <th>Image</th>
+           <th>Book title</th>
+           <th>Author</th>
            <th>Actions</th>
          </tr>
        </thead>
