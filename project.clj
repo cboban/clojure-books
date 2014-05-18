@@ -13,7 +13,6 @@
 		 [compojure "1.1.6"]
 		 [com.cemerick/valip "0.3.2"]
 		 [clojurewerkz/neocons "2.0.1"]
-     [javax.servlet/servlet-api "2.5"]
 		 [ring "1.2.2"]
 		 [enlive "1.1.5"]
      [de.ubercode.clostache/clostache "1.3.1"]
@@ -24,6 +23,7 @@
 		 [clj-webdriver "0.6.0"]
      [org.clojure/clojurescript "0.0-2030"]
      [lib-noir "0.8.1"]
+     [enfocus "2.0.2"] 
    ]
   ;:plugins [[lein2-eclipse "2.0.0"]]
 
@@ -46,7 +46,7 @@
 			   books.signin.signin-validators]
 	      :builds
 		{
-   
+     
    :signin
 		 {;; CLJS source code path
 		  :source-paths [
@@ -80,7 +80,8 @@
    :shelves
 		 {;; CLJS source code path
 		  :source-paths [
-				 "src/cljs/books/shelves"]
+				 "src/cljs/books/shelves"
+         "src/cljs/books/helpers"]
 
 		  ;; Google Closure (CLS) options configuration
 		  :compiler {;; CLS generated JS script filename
@@ -91,5 +92,4 @@
 
 			     ;; generated JS code prettyfication
 			     :pretty-print true}}
-		 }
-  })
+		 }})

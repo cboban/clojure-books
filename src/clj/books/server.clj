@@ -32,7 +32,7 @@
  
   (GET "/shelves"
        []
-       (shelvec/list))
+       (shelvec/index))
   (GET "/shelves/:action"
        [action]
        (when-let [fun (ns-resolve 'books.shelves.shelves-controller (symbol action))]

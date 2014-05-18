@@ -6,16 +6,26 @@
 	    [books.shelves.shelves-view :as shelvev]
 	    [books.json-helper :as jsonh]))
 
-(defn list
-  "Show shelves list"
+(defn index
+  "Show shelves index"
   []
   (shelvev/index))
+
+
+(defn listing
+  "Show shelves list"
+  []
+  (let [ajaxData (shelvev/listing)]
+    (jsonh/output-message "OK" "List data returned" ajaxData)
+  ))
 
 
 (defn add
   "Add new shelve"
   []
-  (shelvev/add))
+   (let [ajaxData (shelvev/form)]
+    (jsonh/output-message "OK" "Form data returned" ajaxData)
+  ))
 
 
 (defn edit
@@ -27,7 +37,9 @@
 (defn view
   "Show books in shelve"
   [id]
-  (shelvev/view))
+   (let [ajaxData (shelvev/view {:id id})]
+    (jsonh/output-message "OK" "Form data returned" ajaxData)
+  ))
 
 
 (defn delete
