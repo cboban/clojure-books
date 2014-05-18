@@ -9,6 +9,7 @@
   :resource-paths ["resources"]
 
   :dependencies [
+     [ring/ring-codec "1.0.0"]
      [org.clojure/clojure "1.6.0"]
 		 [compojure "1.1.6"]
 		 [com.cemerick/valip "0.3.2"]

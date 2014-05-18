@@ -32,7 +32,10 @@
  
   (GET "/shelves"
        []
-       (shelvec/index))
+       (shelvec/index))   
+  (POST "/shelves"
+       request
+       (shelvec/save (:params request)))
   (GET "/shelves/:action"
        [action]
        (when-let [fun (ns-resolve 'books.shelves.shelves-controller (symbol action))]

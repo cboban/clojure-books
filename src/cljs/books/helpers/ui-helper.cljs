@@ -44,3 +44,37 @@
     100)  
   )
 
+
+(defn get-input-value
+  "Get input value"
+  [selector]
+  (ef/from selector (ef/get-prop :value)))
+
+(defn read-form
+  "Read form data"
+  [selector]
+  (ef/from selector (ef/read-form)))
+
+
+(em/defaction remove-element
+  [selector]
+  selector (ef/remove-node))
+
+(defn remove-form-errors
+  "Remove all form errors from page"
+  []
+  (remove-element ".form-error"))
+
+
+(defn append-error
+  "Appends error after element which match provided selector"
+  [selector errors]
+    (em/defaction insert-after [selector error]
+      selector (ef/after (str "<div class=\"form-error\">"error"</div>")))
+    (doseq [error errors]
+	   (insert-after selector error))
+    
+  )
+
+
+  

@@ -19,3 +19,10 @@
 	    [:email email-address? "Email not in valid format."]
 	    [:password present? "Password can't be empty."]
       [:username present? "Username can't be empty."]))
+
+
+(defn create-shelve-form-errors
+  "Validation for shelve adding form"
+  [params]
+  (validate params
+	    [:name present? "Name can't be empty."]))

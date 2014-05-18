@@ -42,6 +42,15 @@
   ))
 
 
+(defn save
+  "Save shelve data"
+  [data]
+  (do 
+    (n4j/create-node "Shelve" {:name (:name data)
+		       :description (:description data)})
+    (jsonh/output-message "OK" "Shelve saved")))
+
+
 (defn delete
   "Remove existing shelve"
   [id]
