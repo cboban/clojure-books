@@ -2,6 +2,7 @@
   (:require [domina :as dom]
 	    [domina.events :as evts]
 	    [domina.css :as domcss]
+      [goog.events :as events]
       [books.helpers.ui-helper :as uihelper]
       [books.shelves.shelveform :as shelveform]
       [books.shelves.shelveview :as shelveview]
@@ -9,9 +10,11 @@
       [clojure.browser.event :as gevent]
       [enfocus.core :as ef]
       [enfocus.events :as ev]
+      [secretary.core :as secretary :include-macros true :refer [defroute]]
       )
-  (:require-macros [enfocus.macros :as em]))
-
+  (:require-macros [enfocus.macros :as em])
+  (:import goog.History
+           goog.History.EventType))
 
 (defn set-list-listeners
   "Set listeners after list is loaded over ajax"
@@ -52,7 +55,19 @@
 
 
 (defn ^:export init []
-  (if (and js/document
-	   (.-getElementById js/document))
-    (get-shelves-list)
- ))
+     (doto (History.)
+		  (goog.events/listen
+		    EventType/NAVIGATE 
+		    #(em/wait-for-load (secretary/dispatch! (.-token %))))
+		  (.setEnabled true)))
+
+(defroute "/" []
+ (get-shelves-list))
+
+(defroute "/add" []
+  (shelveform/load-add-form))
+
+(defroute "/edit/:shelve" [shelve]
+  (shelveform/load-add-form))
+ 
+

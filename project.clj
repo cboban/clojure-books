@@ -22,9 +22,10 @@
 		 [org.clojure/data.json "0.2.4"]
 		 [xml-apis/xml-apis "2.0.2"]
 		 [clj-webdriver "0.6.0"]
-     [org.clojure/clojurescript "0.0-2030"]
+     [org.clojure/clojurescript "0.0-2227"]
      [lib-noir "0.8.1"]
      [enfocus "2.0.2"] 
+     [secretary "1.1.1"]
    ]
   ;:plugins [[lein2-eclipse "2.0.0"]]
 
@@ -33,7 +34,7 @@
   :repl-init books.repl
 
   :plugins [;; cljsbuild plugin
-	    [lein-cljsbuild "1.0.1"]
+	    [lein-cljsbuild "1.0.3"]
 
 	    ;; ring plugin
 	    [lein-ring "0.8.10"]
