@@ -74,7 +74,6 @@
   [selector errors]
     (doseq [error errors]
 	   (insert-after selector (str "<div class=\"form-error\">"error"</div>")))
-    
   )
 
 

@@ -10,7 +10,7 @@
 (defn connect-neo4j
   "Connect to neo4j db"
   []
-  (nr/connect! "http://localhost:7474/db/data/"))
+  (nr/connect "http://localhost:7474/db/data/"))
 
 (defn get-indexes-node-type-of
   "Get node with indexes of particular type"
@@ -60,18 +60,18 @@
 (defn create-node
   "Create node in neo4j db"
   [node-label node-data]
-  (let [node (nn/create node-data)]
-    (nl/add node node-label)))
+  (let [node (nn/create (connect-neo4j) node-data)]
+    (nl/add (connect-neo4j) node node-label) node))
 
 (defn read-node
   "Read node by id from neo4j db"
   [id]
-  (nn/get id))
+  (nn/get (connect-neo4j) id))
 
 (defn update-node
   "Update node from neo4j db"
   [node data]
-  (nn/update node data))
+  (nn/update (connect-neo4j) node data))
 
 (defn delete-node
   "Delete node from neo4j db"
@@ -83,7 +83,7 @@
 (defn create-relationship
   "Create relationship between nodes"
   [from to rel-type data]
-  (nrel/create from to rel-type data))
+  (nrel/create (connect-neo4j) from to rel-type data))
 
 (defn update-relationship
   "Update relationship by id"
@@ -102,7 +102,7 @@
 
 (defn cypher-query [query-statement]
   "Cypher query"
-  (cy/query query-statement))
+  (cy/query (connect-neo4j) query-statement))
 
 (defn set-node-property
   "Set node property"

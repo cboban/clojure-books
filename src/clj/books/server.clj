@@ -3,7 +3,8 @@
   (:use compojure.core
 	(sandbar stateful-session)
 	[ring.middleware.params]
-	[ring.middleware.multipart-params])
+	[ring.middleware.multipart-params]
+  [ring.util.response :only [redirect]])
   (:require [compojure.handler :as handler]
 	    [compojure.route :as route]
 	    [books.signin.signin-view :as sninv]
@@ -19,20 +20,24 @@
 ;; turn, until a non-nil response is returned.
 (defroutes app-routes
   ; to serve document root address
+  (GET ""
+    []
+    (redirect "/signin"))
+  (GET "/"
+    []
+    (redirect "/signin"))
   (GET "/home"
     []
     (sninc/is-logged-in (homev/home)))
   (GET "/signin"
     []
-    (sninc/is-logged-in (homev/home)))
+    (sninc/is-logged-in (redirect "/home")))
   (GET "/logout"
     []
     (do (destroy-session!)
     (sninc/is-logged-in (homev/home))))
  
-  (GET "/shelves"
-       []
-       (shelvec/index))   
+  
   (POST "/shelves"
        request
        (shelvec/save (:params request)))
@@ -66,11 +71,11 @@
   (POST "/signin"
     request
     (do (sninc/authenticate-user (:params request))
-	(sninc/is-logged-in (homev/home))))
+	(sninc/is-logged-in (redirect "/home"))))
   ; to serve static pages saved in resources/public directory
   (route/resources "/")
   ; if page is not found
-  (route/not-found (sninv/page-not-found "Page not found"))
+  (route/not-found (redirect "/home"))
 ;  (GET "/:url/:id"
 ;    request
 ;    (println request))
@@ -89,5 +94,4 @@
 (defn run-server
   "Run jetty server"
   []
-  (jetty/run-jetty handler {:port 3000 :join? false})
-  )
+  (jetty/run-jetty handler {:port 3000 :join? false}))

@@ -13,10 +13,10 @@
      [org.clojure/clojure "1.6.0"]
 		 [compojure "1.1.6"]
 		 [com.cemerick/valip "0.3.2"]
-		 [clojurewerkz/neocons "2.0.1"]
+		 [clojurewerkz/neocons "3.0.0"]
 		 [ring "1.2.2"]
 		 [enlive "1.1.5"]
-     [de.ubercode.clostache/clostache "1.3.1"]
+     [de.ubercode.clostache/clostache "1.4.0"]
 		 [domina "1.0.2"]
 		 [sandbar "0.4.0-SNAPSHOT"]
 		 [org.clojure/data.json "0.2.4"]
@@ -26,6 +26,7 @@
      [lib-noir "0.8.1"]
      [enfocus "2.0.2"] 
      [secretary "1.1.1"]
+     [org.clojure/tools.logging "0.3.0"]
    ]
   ;:plugins [[lein2-eclipse "2.0.0"]]
 
@@ -33,7 +34,8 @@
 
   :repl-init books.repl
 
-  :plugins [;; cljsbuild plugin
+  :plugins [
+      ;; cljsbuild plugin
 	    [lein-cljsbuild "1.0.3"]
 
 	    ;; ring plugin
@@ -46,52 +48,38 @@
   :cljsbuild {:crossovers [valip.core 
                            valip.predicates
 			   books.signin.signin-validators]
-	      :builds
-		{
+	  :builds {
      
-   :signin
-		 {;; CLJS source code path
-		  :source-paths [
-				 "src/cljs/books/signin"]
+            :signin
+	           {;; CLJS source code path
+		           :source-paths [
+			           "src/cljs/books/signin"]
 
-		  ;; Google Closure (CLS) options configuration
-		  :compiler {;; CLS generated JS script filename
-			     :output-to "resources/public/js/signin.js"
+		           ;; Google Closure (CLS) options configuration
+		           :compiler {;; CLS generated JS script filename
+			              :output-to "resources/public/js/signin.js"
 
-			     ;; minimal JS optimization directive
-			     :optimizations :whitespace
+			              ;; minimal JS optimization directive
+			              :optimizations :whitespace
 
-			     ;; generated JS code prettyfication
-			     :pretty-print true}}
+			              ;; generated JS code prettyfication
+			              :pretty-print true}}
   
-   :home
-		 {;; CLJS source code path
-		  :source-paths [
-				 "src/cljs/books/home"]
+            :app
+	           {;; CLJS source code path
+		           :source-paths [
+			           "src/cljs/books/routing"
+			           "src/cljs/books/helpers"
+			           "src/cljs/books/home"
+                 "src/cljs/books/shelves"]
 
-		  ;; Google Closure (CLS) options configuration
-		  :compiler {;; CLS generated JS script filename
-			     :output-to "resources/public/js/home.js"
+		           ;; Google Closure (CLS) options configuration
+		           :compiler {;; CLS generated JS script filename
+			              :output-to "resources/public/js/app.js"
 
-			     ;; minimal JS optimization directive
-			     :optimizations :whitespace
+			              ;; minimal JS optimization directive
+			              :optimizations :whitespace
 
-			     ;; generated JS code prettyfication
-			     :pretty-print true}}   
-  
-   :shelves
-		 {;; CLJS source code path
-		  :source-paths [
-				 "src/cljs/books/shelves"
-         "src/cljs/books/helpers"]
-
-		  ;; Google Closure (CLS) options configuration
-		  :compiler {;; CLS generated JS script filename
-			     :output-to "resources/public/js/shelves.js"
-
-			     ;; minimal JS optimization directive
-			     :optimizations :whitespace
-
-			     ;; generated JS code prettyfication
-			     :pretty-print true}}
-		 }})
+			              ;; generated JS code prettyfication
+			              :pretty-print true}}   
+	           }})

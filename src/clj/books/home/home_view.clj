@@ -6,16 +6,13 @@
 
 (en/deftemplate home-template
   (hg/build-html-page [{:temp-sel [:div.content],
-			:comp "public/home/dashboard.html" ,
-			:comp-sel [:div.dashboard]}])
+			:comp "public/general/ajax.html" ,
+			:comp-sel [:div.ajaxplaceholder]}])
   [param]
   [:title] (en/content "Dashboard")
   [:div.script] (en/content {:tag :script,
-			     :attrs {:src "js/home.js"},
+			     :attrs {:src "js/app.js"},
 			     :content nil})
-  [:div.script] (en/append {:tag :script,
-			    :attrs nil,
-			    :content "books.home.home_js.init();"})
   )
 
 

@@ -3,6 +3,7 @@
 	    [domina.events :as evts]
 	    [domina.css :as domcss]
       [books.helpers.ui-helper :as uihelper]
+      [books.helpers.ajax-helper :as ajaxhelper]
       [clojure.browser.net :as net]
       [clojure.browser.event :as gevent]))
 
@@ -13,19 +14,21 @@
 (defn on-view-loaded
   "Render shelve details"
   [content]
- (let [data (js->clj (.getResponseJson (.-target content)) :keywordize-keys true)]
-   (if (= (:status data) "OK")
-        (do
-          (uihelper/swap-app-content (str (:data data)))
-          (uihelper/hide-loading-bar)
-          (set-view-listeners)
-        )
-        (do
-          (dom/prepend! (dom/by-id "warningInfoMessage")  (str "<div class=\"one-validation-message\">" (:message data) "</div>"))
-          (dom/set-style! (dom/by-id "warningInfoMessage") "display" "block"))
-      )
-)
-  )
+  (ajaxhelper/parse-json-reponse content 
+   (fn [data]   
+     (do
+       (uihelper/swap-app-content (str (:data data)))
+       (uihelper/hide-loading-bar)
+       (set-view-listeners)
+     )
+    )
+   
+   (fn [data]
+      (do
+        (dom/prepend! (dom/by-id "warningInfoMessage")  (str "<div class=\"one-validation-message\">" (:message data) "</div>"))
+        (dom/set-style! (dom/by-id "warningInfoMessage") "display" "block"))
+    )
+))
 
 (defn get-view 
   "Get shelve details over AJAX"

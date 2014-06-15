@@ -1,59 +1,26 @@
 <div class="shelves-list">
 	<h2>Shelves</h2>
 	<hr/>
-	<a href="#/add" class="btn btn-lg btn-primary pull-right ">Add new&nbsp;<i class="glyphicon glyphicon-plus"></i></a>
+	<a href="#/shelves/add" class="btn btn-lg btn-primary pull-right ">Add new&nbsp;<i class="glyphicon glyphicon-plus"></i></a>
 	<table class="table">
-       <thead>
+       <thead>	 
          <tr>
            <th>#</th>
-           <th>Shelve name</th>
+           <th>Name</th>
            <th>Number of books</th>
            <th>Actions</th>
          </tr>
        </thead>
        <tbody>
-         <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="javascript:void(0)" class="btn btn-sm btn-primary view-shelve-info" data-id="2"><i class="glyphicon glyphicon-eye-open"></i></a>
-				<a href="/shelves/edit/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-				<a href="/shelves/delete/" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
+         <tr class="template-item">
+           <td class="shelve-id"></td>
+           <td class="shelve-name"></td>
+           <td class="shelve-count"></td>
+           <td class="shelve-actions">
+				<a href="javascript:void(0)" class="btn btn-sm btn-primary view-shelve-info"><i class="glyphicon glyphicon-eye-open"></i></a>
+				<a href="/shelves/edit/" class="btn btn-sm btn-primary edit-shelve"><i class="glyphicon glyphicon-pencil"></i></a>
+				<a href="/shelves/delete/" class="btn btn-sm btn-danger delete-shelve"><i class="glyphicon glyphicon-trash"></i></a>
 			</td>
          </tr>
-                  <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="javascript:void(0)" class="btn btn-sm btn-primary view-shelve-info" data-id="2"><i class="glyphicon glyphicon-eye-open"></i></a>
-				<a href="/shelves/edit/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-				<a href="/shelves/delete/" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-			</td>
-         </tr>
-         
-                  <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="javascript:void(0)" class="btn btn-sm btn-primary view-shelve-info" data-id="2"><i class="glyphicon glyphicon-eye-open"></i></a>
-				<a href="/shelves/edit/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-				<a href="/shelves/delete/" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-			</td>
-         </tr>
-         
-                  <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="javascript:void(0)" class="btn btn-sm btn-primary view-shelve-info" data-id="2"><i class="glyphicon glyphicon-eye-open"></i></a>
-				<a href="/shelves/edit/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-pencil"></i></a>
-				<a href="/shelves/delete/" class="btn btn-sm btn-danger"><i class="glyphicon glyphicon-trash"></i></a>
-			</td>
-         </tr>
-         
 	</table>
 </div>

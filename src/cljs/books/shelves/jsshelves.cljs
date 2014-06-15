@@ -4,6 +4,7 @@
 	    [domina.css :as domcss]
       [goog.events :as events]
       [books.helpers.ui-helper :as uihelper]
+      [books.helpers.ajax-helper :as ajaxhelper]
       [books.shelves.shelveform :as shelveform]
       [books.shelves.shelveview :as shelveview]
       [clojure.browser.net :as net]
@@ -12,9 +13,43 @@
       [enfocus.events :as ev]
       [secretary.core :as secretary :include-macros true :refer [defroute]]
       )
-  (:require-macros [enfocus.macros :as em])
-  (:import goog.History
-           goog.History.EventType))
+  (:require-macros [enfocus.macros :as em]))
+
+
+(defn on-json-load 
+  "Render shelve table from json"
+  [content]
+  (ajaxhelper/parse-json-response content 
+     (fn [data]
+       (ef/at "table.table .template-item" 
+         (em/clone-for [shelve (:data data)]
+			        "td.shelve-name" (ef/content (:name shelve))
+			        "td.shelve-id" (ef/content (str (:id shelve)))
+			        "td.shelve-actions .view-shelve-info" (ef/set-attr :href (str "#/shelves/view/" (str (:id shelve))))
+			        "td.shelve-actions .edit-shelve" (ef/set-attr :href (str "#/shelves/edit/" (str (:id shelve))))
+			        "td.shelve-actions .delete-shelve" (ev/listen :click 
+                                                         #(ef/at (.-currentTarget %)
+                                                                 (do
+                                                                   (.preventDefault %)
+                                                                   (if (js/confirm (str "Delete shelve " (:name shelve) "?"))
+                                                                     (js/alert "Shelve deleted")
+                                                                     (js/alert "Shelve survived")
+                                                                     ))))
+           
+           )))
+     (fn [data]
+       ((js/alert (:message data))))
+))
+
+
+(defn get-shelves 
+  "Get shelves list json"
+  []
+  (let [ajaxUrl "/shelves/json-list" xhr (net/xhr-connection)]
+      (gevent/listen xhr :error #(.log js/console "Error %1"))
+      (gevent/listen xhr :success on-json-load)
+      (net/transmit xhr ajaxUrl "GET" {:q "json"})
+          (uihelper/show-loading-bar)))
 
 (defn set-list-listeners
   "Set listeners after list is loaded over ajax"
@@ -24,8 +59,9 @@
       (fn [evt]
       (let [id (ef/from (.-currentTarget evt) (ef/get-attr :data-id))]
         (shelveview/get-view id)
-        (.preventDefault evt)
-)))))
+        (.preventDefault evt)))))
+  (get-shelves)
+  )
 
 (defn on-list-load
  "Render shelves list"
@@ -54,20 +90,14 @@
 ))
 
 
-(defn ^:export init []
-     (doto (History.)
-		  (goog.events/listen
-		    EventType/NAVIGATE 
-		    #(em/wait-for-load (secretary/dispatch! (.-token %))))
-		  (.setEnabled true)))
-
-(defroute "/" []
- (get-shelves-list))
-
-(defroute "/add" []
+(defn add-shelve
+  "Show form for adding shelve"
+  []
   (shelveform/load-add-form))
 
-(defroute "/edit/:shelve" [shelve]
-  (shelveform/load-add-form))
- 
+(defn edit-shelve
+  "Show form for editting shelve"
+  [shelve-id]
+  (shelveform/load-add-form shelve-id))
+
 

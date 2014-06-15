@@ -4,12 +4,8 @@
   (:require [books.neo4j :as n4j]
 	    [books.signin.signin-controller :as sninc]
 	    [books.shelves.shelves-view :as shelvev]
+	    [books.shelves.shelves-model :as shelvem]
 	    [books.json-helper :as jsonh]))
-
-(defn index
-  "Show shelves index"
-  []
-  (shelvev/index))
 
 
 (defn listing
@@ -18,6 +14,13 @@
   (let [ajaxData (shelvev/listing)]
     (jsonh/output-message "OK" "List data returned" ajaxData)
   ))
+
+
+(defn json-list
+  "Get shelves in JSON format"
+  []
+  (let [ajaxData (shelvem/get-user-shelves)]
+    (jsonh/output-message "OK" "JSON returned" ajaxData)))
 
 
 (defn add
@@ -31,7 +34,8 @@
 (defn edit
   "Edit existing shelve"
   [id]
-  (shelvev/edit))
+  (let [ajaxData (shelvev/edit (shelvem/get-shelve id))]
+    (jsonh/output-message "OK" "Form data returned" ajaxData)))
 
 
 (defn view
@@ -45,10 +49,8 @@
 (defn save
   "Save shelve data"
   [data]
-  (do 
-    (n4j/create-node "Shelve" {:name (:name data)
-		       :description (:description data)})
-    (jsonh/output-message "OK" "Shelve saved")))
+  (if (shelvem/save-shelve data)
+  (jsonh/output-message "OK" "Shelve saved") (jsonh/output-message "ERROR" "Save failed")))
 
 
 (defn delete
