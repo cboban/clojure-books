@@ -31,7 +31,16 @@
 (defn get-shelve
   "Get shelve by id"
   [id]
-  (first (for [[id shelve-data] (:data (n4j/cypher-query (str "MATCH (shelve:Shelve) WHERE id(shelve) = " id " RETURN ID(shelve), shelve")))]
+  (first (for [[id shelve-data] (:data (n4j/cypher-query (str "MATCH (shelve:Shelve)<-[:OWNS]-(user:User) WHERE id(shelve) = " id " AND id(user) = " (:id (session-get :user)) " RETURN ID(shelve), shelve")))]
            (assoc (:data shelve-data) :id id))))
+
+(defn delete-shelve
+  "Delete shelve by id"
+  [id]
+  (let [shelve (get-shelve (Integer/parseInt id))]
+    (if (not= shelve nil)
+      (n4j/delete-node (Integer/parseInt id))
+      (false)
+    )))
  
   

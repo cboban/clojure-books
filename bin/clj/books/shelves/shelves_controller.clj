@@ -56,4 +56,5 @@
 (defn delete
   "Remove existing shelve"
   [id]
- )
+  (if (shelvem/delete-shelve id)
+  (jsonh/output-message "OK" "Shelve deleted") (jsonh/output-message "ERROR" "Shelve not deleted")))

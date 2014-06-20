@@ -49,6 +49,10 @@
        [action params]
        (when-let [fun (ns-resolve 'books.shelves.shelves-controller (symbol action))]
         (apply fun [params])))
+  (DELETE "/shelves/:action/:params"
+       [action params]
+       (when-let [fun (ns-resolve 'books.shelves.shelves-controller (symbol action))]
+        (apply fun [params])))
   
   
   (GET "/books"

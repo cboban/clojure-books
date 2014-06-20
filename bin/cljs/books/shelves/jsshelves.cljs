@@ -11,35 +11,59 @@
       [clojure.browser.event :as gevent]
       [enfocus.core :as ef]
       [enfocus.events :as ev]
-      [secretary.core :as secretary :include-macros true :refer [defroute]]
-      )
+      [secretary.core :as secretary :include-macros true :refer [defroute]])
   (:require-macros [enfocus.macros :as em]))
 
+(defn on-shelve-deleted
+  "Action on shelve deleted"
+  [content]
+  (ajaxhelper/parse-json-response content
+   (fn [data]
+     (js/alert "Shelve deleted")
+     (get-shelves-list)
+     )
+   (fn [data]
+     (js/alert "Shelve not deleted")
+     )
+                                  )
+  )
+
+(defn delete-shelve
+  "Delete shelve over ajax"
+  [id]
+  (let [ajaxUrl (str "/shelves/delete/" id) xhr (net/xhr-connection)]
+      (gevent/listen xhr :error #(.log js/console "Error %1"))
+      (gevent/listen xhr :success on-shelve-deleted)
+      (net/transmit xhr ajaxUrl "DELETE" {:q "json"})
+          (uihelper/show-loading-bar)))
 
 (defn on-json-load 
   "Render shelve table from json"
   [content]
   (ajaxhelper/parse-json-response content 
      (fn [data]
-       (ef/at "table.table .template-item" 
-         (em/clone-for [shelve (:data data)]
-			        "td.shelve-name" (ef/content (:name shelve))
-			        "td.shelve-id" (ef/content (str (:id shelve)))
-			        "td.shelve-actions .view-shelve-info" (ef/set-attr :href (str "#/shelves/view/" (str (:id shelve))))
-			        "td.shelve-actions .edit-shelve" (ef/set-attr :href (str "#/shelves/edit/" (str (:id shelve))))
-			        "td.shelve-actions .delete-shelve" (ev/listen :click 
-                                                         #(ef/at (.-currentTarget %)
-                                                                 (do
-                                                                   (.preventDefault %)
-                                                                   (if (js/confirm (str "Delete shelve " (:name shelve) "?"))
-                                                                     (js/alert "Shelve deleted")
-                                                                     (js/alert "Shelve survived")
-                                                                     ))))
-           
-           )))
+       (do
+	       (ef/at "table.table .template-item" 
+	         (em/clone-for [shelve (:data data)]
+				        "td.shelve-name" (ef/content (:name shelve))
+				        "td.shelve-id" (ef/content (str (:id shelve)))
+				        "td.shelve-actions .view-shelve-info" (ef/set-attr :href (str "#/shelves/view/" (str (:id shelve))))
+				        "td.shelve-actions .edit-shelve" (ef/set-attr :href (str "#/shelves/edit/" (str (:id shelve))))
+				        "td.shelve-actions .delete-shelve" (ef/do-> (ef/set-attr :data-shelve-id (:id shelve)) (ef/set-attr :data-shelve-name (:name shelve)))))
+       
+	       (ef/at "table .delete-shelve" (ev/listen :click 
+		              #(ef/at (.-currentTarget %)
+                        (let [name (ef/from (.-currentTarget %) (ef/get-attr :data-shelve-name))
+                              id (ef/from (.-currentTarget %) (ef/get-attr :data-shelve-id))]
+		                      (do
+		                        (.preventDefault %)
+		                        (if (js/confirm (str "Delete shelve " name "?"))
+		                          (delete-shelve id)
+		                          (true))))))))
+       ))
      (fn [data]
        ((js/alert (:message data))))
-))
+)
 
 
 (defn get-shelves 

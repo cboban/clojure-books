@@ -75,10 +75,9 @@
 
 (defn delete-node
   "Delete node from neo4j db"
-  [index-type id]
-  (nrel/delete-many (nrel/all-ids-for (read-node id)))
-  (nn/delete id)
-  (remove-node-key-from-indexes index-type id))
+  [id]
+  (nrel/delete-many (connect-neo4j) (nrel/all-ids-for (connect-neo4j) (read-node id)))
+  (nn/delete (connect-neo4j) (read-node id)))
 
 (defn create-relationship
   "Create relationship between nodes"
