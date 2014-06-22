@@ -69,10 +69,10 @@
              name
              surname
              username
-             password
              email
              city
-             country]
+             country
+             admin]
   (:data (n4j/cypher-query (str "MATCH (u:User {username: \""(str username)"\", password: \""(str password)"\"}) 
 						RETURN ID(u), 
 						u.name, 
@@ -80,8 +80,9 @@
 						u.username, 
 						u.password, 
 						u.city, 
-						u.country")))]
-  (session-put! :user {:id id :name name :surname surname :city city :username username :country country}))
+						u.country,
+            u.is_admin")))]
+  (session-put! :user {:id id :name name :surname surname :city city :username username :country country :admin admin}))
     (if (= (session-get :user) nil)
       (flash-put! :session-message-warning "Wrong username or password"))
 	(session-put! :login-try 1)))

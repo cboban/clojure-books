@@ -9,8 +9,9 @@
 	    [compojure.route :as route]
 	    [books.signin.signin-view :as sninv]
 	    [books.signin.signin-controller :as sninc]
-	    [books.home.home-view :as homev]
+	    [books.home.home-controller :as homec]
 	    [books.shelves.shelves-controller :as shelvec]
+	    [books.users.users-controller :as userc]
 	    [books.books.books-controller :as booksc]
       [books.neo4j :as n4j]
 	    [ring.adapter.jetty :as jetty]))
@@ -28,14 +29,14 @@
     (redirect "/signin"))
   (GET "/home"
     []
-    (sninc/is-logged-in (homev/home)))
+    (sninc/is-logged-in (homec/home)))
   (GET "/signin"
     []
     (sninc/is-logged-in (redirect "/home")))
   (GET "/logout"
     []
     (do (destroy-session!)
-    (sninc/is-logged-in (homev/home))))
+    (sninc/is-logged-in (homec/home))))
  
   
   (POST "/shelves"
@@ -53,11 +54,32 @@
        [action params]
        (when-let [fun (ns-resolve 'books.shelves.shelves-controller (symbol action))]
         (apply fun [params])))
+   
+  
+  (POST "/users"
+       request
+       (userc/save (:params request)))
+  (GET "/users/:action"
+       [action]
+       (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
+        (apply fun [])))
+  (GET "/users/:action/:params"
+       [action params]
+       (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
+        (apply fun [params])))
+  (DELETE "/users/:action/:params"
+       [action params]
+       (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
+        (apply fun [params])))
   
   
-  (GET "/books"
+  (GET "/search/:term"
+       [term]
+       (booksc/search term))
+  
+  (GET "/home/search"
        []
-       (booksc/search))
+       (homec/search-form))
   (GET "/books/:action"
        [action]
        (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]

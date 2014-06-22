@@ -4,13 +4,15 @@
   (:require [books.neo4j :as n4j]
 	    [books.signin.signin-controller :as sninc]
 	    [books.books.books-view :as bookv]
+	    [books.books.books-model :as bookm]
 	    [books.json-helper :as jsonh]))
 
 (defn search
   "Show books list"
-  []
-  (bookv/search))
-
+  [term]
+  (let [ajaxData (bookm/search term)]
+    (jsonh/output-message "OK" "List data returned" ajaxData)
+  ))
 
 (defn view
   "Show book details"

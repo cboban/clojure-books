@@ -27,6 +27,7 @@
      [enfocus "2.0.2"] 
      [secretary "1.1.1"]
      [org.clojure/tools.logging "0.3.0"]
+     [org.clojure/data.zip "0.1.1"]
    ]
   ;:plugins [[lein2-eclipse "2.0.0"]]
 
@@ -71,7 +72,8 @@
 			           "src/cljs/books/routing"
 			           "src/cljs/books/helpers"
 			           "src/cljs/books/home"
-                 "src/cljs/books/shelves"]
+                 "src/cljs/books/shelves"
+                 "src/cljs/books/users"]
 
 		           ;; Google Closure (CLS) options configuration
 		           :compiler {;; CLS generated JS script filename

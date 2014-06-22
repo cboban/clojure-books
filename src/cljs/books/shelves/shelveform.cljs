@@ -27,7 +27,6 @@
   "Save shelve through ajax"
   []
   (let [formData (uihelper/read-form "#shelveAddForm")]
-    (.log js/console formData)
     (let [ajaxUrl "/shelves" postData (str "name="(:name formData)
 					    "&description="(:description formData) (if (contains? formData :id) (str "&id=" (:id formData)) (str ""))) xhr (net/xhr-connection)]
       (gevent/listen xhr :error #(.log js/console "Error %1"))

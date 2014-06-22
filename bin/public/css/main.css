@@ -71,3 +71,20 @@ body {
 	max-width: 500px;
 	display:none;
 }
+
+
+.search-results-list {
+	list-style-type: none;
+}
+
+.search-results-list li {
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 2px solid black;
+}
+
+.search-results-list li div.image {
+	float:left;
+	max-width: 25%;
+	margin-right:2%;
+}
