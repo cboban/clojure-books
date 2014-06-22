@@ -1,48 +1,101 @@
-<div class="books-view well">
-	<h2>Shelve <span id="shelveNamePlaceholder"></span></h2>
+<div class="books-view" style="display:none">
+	<h2 class="book-name"></h2>
 	<hr/>
 	
-	<h3>Books</h3>
-	<table class="table">
-       <thead>
-         <tr>
-           <th>#</th>
-           <th>Book name</th>
-           <th>Author</th>
-           <th>Actions</th>
-         </tr>
-       </thead>
-       <tbody>
-         
-         <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="/books/view/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-eye-open">&nbsp;</i>Details</a>
-			</td>
-         </tr>
+	<div class="book-basic-info">
+		<div class="row-fluid clearfix">
+			<div class="pull-left clearfix" style="width:48%">
+				<div class="book-image">
+					<img src="" />
+				</div>
+				
+				<div class="book-rating">
+				</div>
+				
+				<div class="book-isbn other-info">
+				</div>
+				
+				<div class="book-isbn13 other-info">
+				</div>
+				
+				<div class="book-publication-year other-info">
+				</div>
+				
+				<div class="book-num-pages other-info">
+				</div>
+				
+				<div class="book-goodreads-link other-info">
+					<a href="" target="_blank">Show on Goodreads</a>
+				</div>
+			</div>
+			
+			<div class="pull-right" style="width:48%">
+				<div class="shelve-data">
+					<a href="javascript:void(0)" class="btn btn-primary btn-sm add-to-shelve">Add to shelve</a>
+					<select class="shelves-list">
+						<option value=""></option>
+					</select>
+				</div>
+				
+				<div class="in-shelves-holder">
+					<h5>In shelves</h5>
+					<div class="in-shelves">
+						<div class="one-shelve">
+							<em></em>
+							<a href="javascript:void(0)" class="glyphicon glyphicon-remove">&nbsp;</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+			
+		<h4>Description</h4>
+		<div class="book-description">
 		
+		</div>
+		<hr/>
 		
-         <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="/books/view/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-eye-open">&nbsp;</i>Details</a>
-			</td>
-         </tr>
+		<h4>Authors</h4>
+		<div class="book-authors clearfix">
+			<ul class="clearfix">
+				<li>
+					<div class="image">
+						<img src=""/>
+					</div>
+					
+					<div class="name"></div>
+					
+					<div class="rating"></div>
+				</li>
+			</ul>
+		</div>
+		<hr/>
 		
-		
-         <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="/books/view/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-eye-open">&nbsp;</i>Details</a>
-			</td>
-         </tr>
-		
-		
-	</table>
+		<h4>Links</h4>
+		<div class="book-links clearfix">
+			<ul class="clearfix">
+				<li>
+					<div class="link">
+						<a href="" target="_blank"></a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<hr/>
+	</div>
+	
+	<p class="similar-books-loader">Loading similar books...</p>
+	<div class="similar-books-holder clearfix" style="display:none">
+		<h4>Similar books</h4>
+		<div class="similar-books clearfix">
+			<div class="similar-book-template">
+				<div class="image">
+					<image src="">
+				</div>
+				<div class="title">
+					<a href=""></a>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

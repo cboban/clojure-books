@@ -79,6 +79,11 @@
   (nrel/delete-many (connect-neo4j) (nrel/all-ids-for (connect-neo4j) (read-node id)))
   (nn/delete (connect-neo4j) (read-node id)))
 
+(defn read-relationship
+  "Get relationship by id"
+  [rel-id]
+  (nrel/get (connect-neo4j) rel-id))
+
 (defn create-relationship
   "Create relationship between nodes"
   [from to rel-type data]
@@ -92,7 +97,7 @@
 (defn delete-relationship
   "Delete relationship by id"
   [rel-id]
-  (nrel/delete rel-id))
+  (nrel/delete (connect-neo4j) rel-id))
 
 (defn delete-many-relationships
   "Delete many relationships by id"

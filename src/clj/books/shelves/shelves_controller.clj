@@ -41,8 +41,9 @@
 (defn view
   "Show books in shelve"
   [id]
-   (let [ajaxData (shelvev/view {:id id})]
-    (jsonh/output-message "OK" "Form data returned" ajaxData)
+   (let [ajaxHtml (shelvev/view)
+         ajaxData (shelvem/get-shelve-with-books id)]
+    (jsonh/output-message "OK" "Form data returned" ajaxData ajaxHtml)
   ))
 
 
@@ -58,3 +59,4 @@
   [id]
   (if (shelvem/delete-shelve id)
   (jsonh/output-message "OK" "Shelve deleted") (jsonh/output-message "ERROR" "Shelve not deleted")))
+

@@ -1,48 +1,29 @@
 <div class="shelves-view">
-	<h2>Shelve <span id="shelveNamePlaceholder"></span></h2>
+	<h2 class="shelve-name"></h2>
 	<hr/>
 	
-	<h3>Books</h3>
-	<table class="table">
-       <thead>
-         <tr>
-           <th>#</th>
-           <th>Book name</th>
-           <th>Author</th>
-           <th>Actions</th>
-         </tr>
-       </thead>
-       <tbody>
-         
-         <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="/books/view/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-eye-open">&nbsp;</i>Details</a>
-			</td>
-         </tr>
-		
-		
-         <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="/books/view/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-eye-open">&nbsp;</i>Details</a>
-			</td>
-         </tr>
-		
-		
-         <tr>
-           <td>1</td>
-           <td>Mark</td>
-           <td>Otto</td>
-           <td>
-				<a href="/books/view/" class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-eye-open">&nbsp;</i>Details</a>
-			</td>
-         </tr>
-		
-		
-	</table>
+	<h3>Description</h3>
+	<div class="shelve-description">
+	</div>
+	
+	<div class="shelve-books-holder">
+		<h3>Books</h3>
+		<div class="shelve-books clearfix">
+			<div class="shelve-book-template">
+				<div class="image">
+					<image src="">
+				</div>
+				<div class="title">
+					<a href=""></a>
+				</div>
+				<div class="isbn">
+					ISBN: <em class="isbn-value"></em>
+				</div>
+				<div class="rating">
+					Rating: <em class="rating-value"></em>
+				</div>
+				<a href="javascript:void(0)" class="pull-right remove-from-shelve glyphicon glyphicon-remove"></a>
+			</div>
+		</div>
+	</div>
 </div>

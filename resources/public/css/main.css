@@ -88,3 +88,142 @@ body {
 	max-width: 25%;
 	margin-right:2%;
 }
+
+
+.book-basic-info {
+	
+}
+
+
+.book-basic-info h4 {
+	font-weight:bold;
+}
+
+.book-basic-info .book-image {
+	float: left;
+	margin: 0 10px 10px 0
+}
+
+.book-basic-info .book-rating {
+	font-size: 24px;
+	font-weight:bold;
+}
+
+.book-basic-info .book-description {
+}
+
+
+.book-basic-info ul{
+	list-style-type: none;
+	padding: 0;
+}
+
+.book-basic-info .book-authors ul li {
+	text-align: center;
+	float: left;
+	max-width: 20%;
+	margin-right: 2%;
+}
+
+.book-basic-info .book-authors ul li .name {
+	font-size: 16px;
+	font-weight:bold;
+}
+	
+.book-basic-info .book-links ul li  {
+	float:left;
+	margin: 1%;
+	background:#2a6496;
+	padding: 1%;
+	border-radius: 10px;
+}	
+
+.book-basic-info .book-links ul a  {
+	color:white;
+}
+
+
+.similar-books .similar-book-template {
+	width: 48%;
+	padding: 0.5%;
+	margin: 1%;
+	float:left;
+	height: 120px;
+	border: 2px solid #2a6496;
+}
+
+.similar-books .similar-book-template div {
+	float:left;
+}
+
+.similar-books .similar-book-template div.title {
+	margin: 0 5px 5px 5px;
+	font-size: 18px;
+	font-weight: bold;
+	float:left;
+	width: 75%;
+}
+
+.similar-books .similar-book-template div.image {
+	width: 20%;
+}
+
+.similar-books .similar-book-template div.image img {
+	max-height: 100%;
+}
+
+
+.shelve-books .shelve-book-template {
+	position: relative;
+	width: 48%;
+	padding: 0.5%;
+	margin: 1%;
+	float:left;
+	height: 120px;
+	border: 2px solid #2a6496;
+	background: white;
+}
+
+.shelve-books .shelve-book-template div {
+	float:left;
+}
+
+.shelve-books .shelve-book-template div.title {
+	margin: 0 5px 5px 5px;
+	font-size: 18px;
+	font-weight: bold;
+	float:left;
+	width: 75%;
+}
+
+.shelve-books .shelve-book-template div.image {
+	width: 20%;
+}
+
+.shelve-books .shelve-book-template div.image img {
+	max-height: 100%;
+}
+
+.shelve-books .shelve-book-template div.isbn, .shelve-books .shelve-book-template div.rating {
+	width: 75%;
+}
+
+.shelve-books .shelve-book-template a.remove-from-shelve {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	color:red;
+	text-decoration:none;
+	cursor: pointer;
+}
+
+
+.in-shelves-holder h5 {
+	font-weight:bold;
+}
+
+.in-shelves-holder .in-shelves a {
+	text-decoration: none;
+	color: red;
+}
+	

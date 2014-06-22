@@ -104,6 +104,30 @@
          book
    )))
 
+
+(defn parse-similar
+  "Parse similar books"
+  [response]
+	  (for [m (zip-xml/xml-> (zip/xml-zip response) :book :similar_books :book)]
+	       (let [book {
+	                   :id (zip-xml/text (zip-xml/xml1-> m :id))
+	                   :rating (zip-xml/text (zip-xml/xml1-> m :average_rating))
+	                   :title (zip-xml/text (zip-xml/xml1-> m :title))
+	                   :image (zip-xml/text (zip-xml/xml1-> m :image_url))
+	                   :small_image (zip-xml/text (zip-xml/xml1-> m :small_image_url))
+	                  }]
+	         (send (agent book) save-detailed-info)
+	         ;(save-detailed-info book)
+	         book
+	   ))
+  )
+
+
+(defn get-similar
+  "Get similar books"
+  [id]
+  (parse-similar (get-xml-response (str "https://www.goodreads.com/book/show/" id "?key=" (get-api-key)))))
+
 (defn search
   "Search books based on term"
   [term]

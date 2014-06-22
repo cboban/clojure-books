@@ -56,10 +56,8 @@
 	
  (defn view
 	  "Render list of books in shelve"
-	  ([]
+	  []
 	  (hg/render (apply str (view-template "")) {:user (session-get :user)}))
-	  ([var-map]
-	  (hg/render (apply str (view-template "")) (merge {:user (session-get :user)} var-map ))))
 
 
 

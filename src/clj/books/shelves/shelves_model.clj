@@ -40,7 +40,29 @@
   (let [shelve (get-shelve (Integer/parseInt id))]
     (if (not= shelve nil)
       (n4j/delete-node (Integer/parseInt id))
-      (false)
-    )))
- 
-  
+      (false))))
+
+
+(defn get-available-shelves
+  "Get free shelves for book"
+  [book-id]
+  (for [[id shelve-data] (:data (n4j/cypher-query (str "MATCH (user:User)-[:OWNS]->(shelves), (books:Book {id : \"" book-id "\"}) WHERE id(user) = " (:id (session-get :user)) " AND not((shelves)-[:STORES]->(books)) RETURN id(shelves), shelves")))]
+    (assoc (:data shelve-data) :id id)))
+
+(defn in-shelves
+  "Get shelves for book"
+  [book-id]
+  (for [[id shelve-data] (:data (n4j/cypher-query (str "MATCH (user:User)-[:OWNS]->(shelves)-[:STORES]->(books:Book {id : \"" book-id "\"}) WHERE id(user) = " (:id (session-get :user)) " RETURN id(shelves), shelves")))]
+    (assoc (:data shelve-data) :id id)))
+
+(defn get-shelve-books
+  "Get shelve books"
+  [shelve-id]
+  (for [[id book-data] (:data (n4j/cypher-query (str "MATCH (shelve:Shelve)-[:STORES]->(books:Book) WHERE id(shelve) = " shelve-id " RETURN id(books), books")))]
+    (assoc (:data book-data) :node-id id)))
+
+(defn get-shelve-with-books
+  "Get shelve info with books"
+  [shelve-id]
+  {:shelve (get-shelve shelve-id)
+       :books (get-shelve-books shelve-id)})

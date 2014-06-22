@@ -22,6 +22,9 @@
 (defroute "/shelves/edit/:shelve" [shelve]
   (jsshelves/edit-shelve shelve))
 
+(defroute "/shelves/view/:shelve" [shelve]
+  (jsshelves/view-shelve shelve))
+
 (defroute "/users" []
  (jsusers/get-users-list))
 
@@ -39,6 +42,10 @@
 (defroute "/books/:term"
   [term]
   (jshome/search term))
+
+(defroute "/book/:id"
+  [id]
+  (jshome/show-details id))
  
 (doto history
   (goog.events/listen

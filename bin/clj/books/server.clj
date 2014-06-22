@@ -80,6 +80,15 @@
   (GET "/home/search"
        []
        (homec/search-form))
+  
+  (POST "/books/add-book"
+     request
+     (booksc/add-book (:params request)))
+ 
+  (POST "/books/remove-book"
+     request
+     (booksc/remove-book (:params request)))
+    
   (GET "/books/:action"
        [action]
        (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]
@@ -88,6 +97,7 @@
        [action params]
        (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]
         (apply fun [params])))
+
   
   
   (PUT "/register-user"

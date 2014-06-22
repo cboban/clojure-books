@@ -124,4 +124,9 @@
   [shelve-id]
   (shelveform/load-add-form shelve-id))
 
+(defn view-shelve
+  "Show shelve info"
+  [shelve-id]
+  (shelveview/show-shelve shelve-id))
+
 
