@@ -117,6 +117,7 @@
 	                   :small_image (zip-xml/text (zip-xml/xml1-> m :small_image_url))
 	                  }]
 	         (send (agent book) save-detailed-info)
+	         ;(save-detailed-info book)
 	         book
 	   ))
   )
