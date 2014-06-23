@@ -3,6 +3,13 @@ body {
   background-color: #ffffff;
 }
 
+.transitionable {
+	transition:All 0.2s ease;
+	-webkit-transition:All 0.2s ease;
+	-moz-transition:All 0.2s ease;
+	-o-transition:All 0.2s ease;
+}
+
 
 .main-content {
 	position: relative;
@@ -75,12 +82,19 @@ body {
 
 .search-results-list {
 	list-style-type: none;
+	padding: 0;
 }
 
 .search-results-list li {
 	padding-bottom: 10px;
 	margin-bottom: 10px;
-	border-bottom: 2px solid black;
+	border: 2px solid #2a6496;
+	background: white;
+	padding: 5px;
+}
+
+.search-results-list li:hover {
+	background: #e0e0e0;
 }
 
 .search-results-list li div.image {
@@ -131,15 +145,29 @@ body {
 }
 	
 .book-basic-info .book-links ul li  {
+	color:white;
 	float:left;
 	margin: 1%;
 	background:#2a6496;
 	padding: 1%;
+	border: 2px solid white;
 	border-radius: 10px;
+	cursor: pointer;
+	transition:All 0.2s ease;
+	-webkit-transition:All 0.2s ease;
+	-moz-transition:All 0.2s ease;
+	-o-transition:All 0.2s ease;
+}
+	
+.book-basic-info .book-links ul li:hover  {
+	background:white;
+	color:#2a6496;
+	border: 2px solid #2a6496;
 }	
 
 .book-basic-info .book-links ul a  {
-	color:white;
+	color:inherit;
+	text-decoration: none;
 }
 
 
@@ -150,6 +178,8 @@ body {
 	float:left;
 	height: 120px;
 	border: 2px solid #2a6496;
+	background: white;
+	border-radius: 4px;
 }
 
 .similar-books .similar-book-template div {
@@ -170,6 +200,9 @@ body {
 
 .similar-books .similar-book-template div.image img {
 	max-height: 100%;
+}
+.similar-books .similar-book-template a {
+	text-decoration: none;
 }
 
 
@@ -222,8 +255,31 @@ body {
 	font-weight:bold;
 }
 
+.in-shelves-holder .one-shelve {
+	position: relative;
+	float:left;
+	min-width: 100px;
+	padding: 5px;
+	background: white;
+	border: 2px solid #428bca;
+	border-radius: 4px;
+	clear:both;
+	margin-bottom: 6px;
+}
+
 .in-shelves-holder .in-shelves a {
 	text-decoration: none;
 	color: red;
+	position: absolute;
+	top:-9px;
+	right: -20px;
+}
+
+
+.shelve-data .shelves-list {
+	background: white;
+	padding: 4px;
+	border: 2px solid #428bca;
+	border-radius: 4px;
 }
 	

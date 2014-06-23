@@ -61,11 +61,9 @@
 		                        (.preventDefault %)
 		                        (if (js/confirm (str "Delete user " name "?"))
 		                          (delete-user id)
-		                          (true))))))))
-       ))
+		                          (true)))))))))
      (fn [data]
-       ((js/alert (:message data))))
-)
+       ((js/alert (:message data))))))
 
 
 (defn get-users 
@@ -112,8 +110,7 @@
       (gevent/listen xhr :error #(.log js/console "Error %1"))
       (gevent/listen xhr :success on-list-load)
       (net/transmit xhr ajaxUrl "GET" {:q "json"})
-          (uihelper/show-loading-bar)  
-))
+          (uihelper/show-loading-bar)))
 
 
 (defn add-user
@@ -125,5 +122,26 @@
   "Show form for editting user"
   [user-id]
   (userform/load-add-form user-id))
+
+
+(defn on-user-profile-load
+  "Render user profile form"
+  [content]
+  (ajaxhelper/parse-json-response content 
+     (fn [data]
+       (do
+          (uihelper/swap-app-content (str (:html data)))
+          (uihelper/hide-loading-bar)))
+     (fn [data]
+       ((js/alert (:message data))))))
+
+(defn show-profile
+  "Show profile change form"
+  []
+  (let [ajaxUrl "/users/profile" xhr (net/xhr-connection)]
+      (gevent/listen xhr :error #(.log js/console "Error %1"))
+      (gevent/listen xhr :success on-user-profile-load)
+      (net/transmit xhr ajaxUrl "GET" {:q "json"})
+          (uihelper/show-loading-bar)))
 
 

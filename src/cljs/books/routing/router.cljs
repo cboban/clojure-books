@@ -46,6 +46,12 @@
 (defroute "/book/:id"
   [id]
   (jshome/show-details id))
+
+
+
+(defroute "/profile"
+  [id]
+  (jsusers/show-profile))
  
 (doto history
   (goog.events/listen

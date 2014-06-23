@@ -58,45 +58,45 @@
   
   (POST "/users"
        request
-       (userc/save (:params request)))
+       (sninc/is-logged-in (userc/save (:params request))))
   (GET "/users/:action"
        [action]
-       (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
-        (apply fun [])))
+       (sninc/is-logged-in (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
+        (apply fun []))))
   (GET "/users/:action/:params"
        [action params]
-       (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
-        (apply fun [params])))
+       (sninc/is-logged-in (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
+        (apply fun [params]))))
   (DELETE "/users/:action/:params"
        [action params]
-       (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
-        (apply fun [params])))
+       (sninc/is-logged-in (when-let [fun (ns-resolve 'books.users.users-controller (symbol action))]
+        (apply fun [params]))))
   
   
   (GET "/search/:term"
        [term]
-       (booksc/search term))
+       (sninc/is-logged-in (booksc/search term)))
   
   (GET "/home/search"
        []
-       (homec/search-form))
+       (sninc/is-logged-in (homec/search-form)))
   
   (POST "/books/add-book"
      request
-     (booksc/add-book (:params request)))
+     (sninc/is-logged-in (booksc/add-book (:params request))))
  
   (POST "/books/remove-book"
      request
-     (booksc/remove-book (:params request)))
+     (sninc/is-logged-in (booksc/remove-book (:params request))))
     
   (GET "/books/:action"
        [action]
-       (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]
-        (apply fun [])))
+       (sninc/is-logged-in (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]
+        (apply fun []))))
   (GET "/books/:action/:params"
        [action params]
-       (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]
-        (apply fun [params])))
+       (sninc/is-logged-in (when-let [fun (ns-resolve 'books.books.books-controller (symbol action))]
+         (apply fun [params]))))
 
   
   
@@ -104,21 +104,16 @@
     request
  (do (session-pop! :login-try 1)
  (sninc/is-not-logged-in (sninc/register-new-user (:params request)))))
+  
+  
   (POST "/signin"
     request
     (do (sninc/authenticate-user (:params request))
 	(sninc/is-logged-in (redirect "/home"))))
-  ; to serve static pages saved in resources/public directory
+  
   (route/resources "/")
-  ; if page is not found
-  (route/not-found (redirect "/home"))
-;  (GET "/:url/:id"
-;    request
-;    (println request))
-;  (POST "/:url/:id"
-;    request
-;    (println request))
-)
+  
+  (route/not-found (redirect "/home")))
 
 ;; site function creates a handler suitable for a standard website,
 ;; adding a bunch of standard ring middleware to app-route:

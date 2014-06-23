@@ -23,8 +23,8 @@
 (defn get-user-shelves
   "Get all user shelves"
   []
-  (for [[id shelve-data] (:data (n4j/cypher-query (str "MATCH(user:User)-[:OWNS]->(shelves) WHERE id(user) = " (:id (session-get :user)) " RETURN id(shelves), shelves")))]
-    (assoc (:data shelve-data) :id id)
+  (for [[id shelve-data book-count] (:data (n4j/cypher-query (str "MATCH(user:User)-[:OWNS]->(shelves)-[:STORES]->(books) WHERE id(user) = " (:id (session-get :user)) " RETURN id(shelves), shelves, count(books)")))]
+    (assoc (:data shelve-data) :id id :count book-count)
   ))
 
 

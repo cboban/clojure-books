@@ -95,6 +95,7 @@
   (do (ef/at ".similar-books .similar-book-template" 
            (em/clone-for [book books]
               "div.image img" (ef/set-attr :src (:image book))
+              "div.rating .rating-value" (ef/content (:rating book))
               "div.title a" (ef/do->
                               (ef/content (:title book))
                               (ef/set-attr :href (str "/#/book/" (:id book))))))

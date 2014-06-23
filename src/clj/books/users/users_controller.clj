@@ -58,3 +58,10 @@
   [id]
   (if (userm/delete-user id)
   (jsonh/output-message "OK" "User deleted") (jsonh/output-message "ERROR" "User not deleted")))
+
+
+(defn profile
+  "Edit profile"
+  []
+  (let [ajxHtml (userv/edit (session-get :user))]
+    (jsonh/output-message "OK" "Form data returned" {} ajxHtml)))
