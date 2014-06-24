@@ -36,7 +36,7 @@ After this compilation, server can be started using command
 
 #### lein run
 
-At first run, app will automaticaly add one admin user, with three shelves connected.
+At first run, app will automaticaly add one admin user (username: admin, pass: admin), with three shelves connected.
 
 
 ##Features:
