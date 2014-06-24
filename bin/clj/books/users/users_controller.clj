@@ -50,7 +50,7 @@
   "Save user data"
   [data]
   (if (userm/save-user data)
-  (jsonh/output-message "OK" "User saved") (jsonh/output-message "ERROR" "Save failed")))
+  (jsonh/output-message "OK" "User saved" (if (= (str (:id data)) (str (:id (session-get :user)))) { :profile true } {:profile false}))  (jsonh/output-message "ERROR" "Save failed")))
 
 
 (defn delete

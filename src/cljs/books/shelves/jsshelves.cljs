@@ -45,7 +45,9 @@
        (do
 	       (ef/at "table.table .template-item" 
 	         (em/clone-for [shelve (:data data)]
-				        "td.shelve-name" (ef/content (:name shelve))
+				        "td.shelve-name a" (ef/do->
+                                     (ef/content (:name shelve))
+                                     (ef/set-attr :href (str "#/shelves/view/" (str (:id shelve)))))
 				        "td.shelve-id" (ef/content (str (:id shelve)))
 				        "td.shelve-count" (ef/content (str (:count shelve)))
 				        "td.shelve-actions .view-shelve-info" (ef/set-attr :href (str "#/shelves/view/" (str (:id shelve))))

@@ -20,9 +20,9 @@
         (fn [data]
           (do
             (js/alert (:message data))
-            (.reload js/location))
+            (.reload js/location)))
         (fn [data]
-	        (js/alert (:message data))))))
+	        (js/alert (:message data)))))
 
 
 (defn remove-book-from-shelve
@@ -184,21 +184,47 @@
       (gevent/listen xhr :success render-book-details)
       (net/transmit xhr ajaxUrl "GET")))
 
+(defn handle-paginator
+  "Handle paginator"
+  [pagination]
+  (let [showNext (if(> (js/parseInt (:total pagination)) (js/parseInt (:end pagination))) true false)
+        showPrev (if(> (js/parseInt (:start pagination)) 1) true false )]
+    (if (or showNext showPrev) (ef/at "div.paginator" (ef/set-style :display "block")))
+    (ef/at ".paginator .from" (ef/content (:start pagination)))
+    (ef/at ".paginator .to" (ef/content (:end pagination)))
+    (ef/at ".paginator .total" (ef/content (:total pagination)))
+    (if showNext (ef/at ".paginator .next-page" (ef/do->
+                                                  (ef/set-style :display "inline")
+                                                  (ef/set-attr :href (str "#/books/" (:query pagination) "/" (+ (js/parseInt (:page pagination)) 1))))))
+    (if showPrev (ef/at ".paginator .previous-page" (ef/do->
+                                                      (ef/set-style :display "inline")
+                                                      (ef/set-attr :href (str "#/books/" (:query pagination) "/" (- (js/parseInt (:page pagination)) 1))))))))
+
 
 (defn render-table
   [data]
   (do
-       (ef/at "ul.search-results-list .template-item" 
-         (em/clone-for [book (:data data)]
-			        "div.title .book-title" (ef/content (:title book))
-			        "div.image .book-image" (ef/set-attr :src (:image book))
-			        "div.author .book-author" (ef/content (:author_name book))
-			        "div.rating .book-rating" (ef/content (:rating book))
-			        "div.actions .book-details" (ef/set-attr :href (str "/#/book/" (str (:id book))))))
+    (if (clojure.string/blank? (ef/from "#mainContentDiv" (ef/get-text)))
+      (do
+	          (uihelper/swap-app-content (str (:html data)))
+	          (uihelper/hide-loading-bar)
+	          (set-form-listeners))
+      )
+    
+      (ef/at "#searchTerm" (ef/set-prop :value (:query (:pagination (:data data)))))
+         (ef/at "ul.search-results-list .template-item" 
+           (em/clone-for [book (:books (:data data))]
+			          "div.title .book-title" (ef/content (:title book))
+			          "div.image .book-image" (ef/set-attr :src (:image book))
+			          "div.author .book-author" (ef/content (:author_name book))
+			          "div.rating .book-rating" (ef/content (:rating book))
+			          "div.actions .book-details" (ef/set-attr :href (str "/#/book/" (str (:id book))))))
        
-       (ef/at "ul.search-results-list .template-item" (ef/set-style :display "block"))
-       (ef/at "div.searching-loader" (ef/set-style :display "none"))
-       ))
+         (ef/at "ul.search-results-list .template-item" (ef/set-style :display "block"))
+         (ef/at "div.searching-loader" (ef/set-style :display "none"))
+       
+         (handle-paginator (:pagination (:data data)))
+         ))
 
 
 (defn render-search-response
@@ -216,21 +242,24 @@
   "Clear results for new search"
   []
   (do
+    (ef/at "div.paginator" (ef/set-style :display "none"))
+    (ef/at "div.paginator a" (ef/set-style :display "none"))
     (ef/at "ul.search-results-list li" (ef/set-style :display "none"))
     (ef/at "ul.search-results-list li:not(:first-child)" (ef/remove-node))))
 
 
 (defn search
   "Sarch term"
-  [term]
+  ([term] (search term 1))
+  ([term page]
   (do
     (clear-table)
 	  (ef/at "div.searching-loader" (ef/set-style :display "block"))
-    (let [ajaxUrl (str "/search/" term) xhr (net/xhr-connection)]
+    (let [ajaxUrl (str "/search/" term "/" page) xhr (net/xhr-connection)]
       (gevent/listen xhr :error #(.log js/console "Error %1"))
       (gevent/listen xhr :success render-search-response)
       (net/transmit xhr ajaxUrl "GET")
-      )))
+      ))))
 
 
 (defn search-books

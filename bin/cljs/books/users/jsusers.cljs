@@ -131,7 +131,9 @@
      (fn [data]
        (do
           (uihelper/swap-app-content (str (:html data)))
-          (uihelper/hide-loading-bar)))
+          (ef/at ".users-edit h2" (ef/content "Edit profile"))
+          (uihelper/hide-loading-bar)
+          (userform/set-form-listeners)))
      (fn [data]
        ((js/alert (:message data))))))
 

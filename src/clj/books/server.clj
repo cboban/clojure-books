@@ -77,6 +77,10 @@
        [term]
        (sninc/is-logged-in (booksc/search term)))
   
+  (GET "/search/:term/:page"
+       [action term page]
+       (sninc/is-logged-in (booksc/search term page)))
+  
   (GET "/home/search"
        []
        (sninc/is-logged-in (homec/search-form)))

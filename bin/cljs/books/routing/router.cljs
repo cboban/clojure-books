@@ -43,6 +43,10 @@
   [term]
   (jshome/search term))
 
+(defroute "/books/:term/:page"
+  [term page]
+  (jshome/search term page))
+
 (defroute "/book/:id"
   [id]
   (jshome/show-details id))

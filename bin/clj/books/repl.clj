@@ -7,6 +7,7 @@
   (:require [clojure.java.browse :as browse]
 	    [books.server :as server]
 	    [books.neo4j :as n4j]
+	    [books.populate :as pop]
       [books.signin.signin-controller :as sninc]))
 
 (defonce server (ref nil))
@@ -17,6 +18,8 @@
   []
 
   (n4j/connect-neo4j)
+  
+  (pop/populate-data)
   
   (dosync (ref-set server (server/run-server)))
   (future (Thread/sleep 3000)

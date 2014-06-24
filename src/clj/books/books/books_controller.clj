@@ -5,14 +5,17 @@
 	    [books.signin.signin-controller :as sninc]
 	    [books.books.books-view :as bookv]
 	    [books.books.books-model :as bookm]
+      [books.home.home-view :as homev]
 	    [books.json-helper :as jsonh]))
 
 (defn search
   "Show books list"
-  [term]
-  (let [ajaxData (bookm/search term)]
-    (jsonh/output-message "OK" "List data returned" ajaxData)
-  ))
+  ([term] (search term 1))
+  ([term page]
+  (let [ajaxData (bookm/search term page)
+        ajaxHtml (homev/search-form)]
+    (jsonh/output-message "OK" "List data returned" ajaxData ajaxHtml)
+  )))
 
 (defn details
   "Show book details"

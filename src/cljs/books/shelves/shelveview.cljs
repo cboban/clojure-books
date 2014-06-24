@@ -21,7 +21,7 @@
   "Render shelve view"
   [data]
   (do
-    (ef/at ".shelves-view .shelve-name" (ef/content (:name (:shelve data))))
+    (ef/at ".shelves-view .shelve-name" (ef/content (str "Shelve: " (:name (:shelve data)))))
     (ef/at ".shelves-view .shelve-description" (ef/content (:description (:shelve data))))
     (ef/at ".shelves-view .shelve-books .shelve-book-template" 
          (em/clone-for [book (:books data)]

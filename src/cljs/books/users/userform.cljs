@@ -18,7 +18,9 @@
   (ajaxhelper/parse-json-response content 
      (fn [data]
        ((js/alert (:message data)
-        (set! (.-location js/window) "#/users"))))
+        (if (= (:profile (:data data)) true)
+          (set! (.-location js/window) "/#/")
+          (set! (.-location js/window) "#/users")))))
      
      (fn [data]
        ((js/alert (:message data))))))
@@ -59,7 +61,6 @@
 	         :username (uihelper/get-input-value "#userUsername")
 	         :password (uihelper/get-input-value "#userPassword")})]
 	 (do 
-    (.log js/console errors)
 	   (uihelper/append-error "#userName" (:name errors))
 	   (uihelper/append-error "#userSurname" (:surname errors))
 	   (uihelper/append-error "#userCity" (:city errors))

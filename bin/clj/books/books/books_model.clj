@@ -9,15 +9,20 @@
 
 (defn search
   "Search books based on term"
-  [term]
-  (gparser/search term))
+  [term page]
+  (gparser/search term page))
 
 
 (defn get-book-data 
   "Get book node based on id"
   [id]
-  (first (for [[book-id book-data] (:data (n4j/cypher-query (str "MATCH(book:Book {id : \"" id "\"}) RETURN id(book), book")))]
-                      (assoc (:data book-data) :node-id book-id))))
+  (let [book (first (for [[book-id book-data] (:data (n4j/cypher-query (str "MATCH(book:Book {id : \"" id "\"}) RETURN id(book), book")))]
+                                 (assoc (:data book-data) :node-id book-id)))]
+    (if (= book nil)
+      (do
+        (gparser/save-detailed-info {:id id})
+        (get-book-data id))
+      book)))
 
 
 (defn get-book

@@ -117,9 +117,33 @@
 	                   :small_image (zip-xml/text (zip-xml/xml1-> m :small_image_url))
 	                  }]
 	         (send (agent book) save-detailed-info)
+	         ;(save-detailed-info book)
 	         book
 	   ))
   )
+
+(defn parse-pagination
+  "Parse pagination data"
+  [response]
+  (let [query (first (for [m (zip-xml/xml-> (zip/xml-zip response) :search)]
+	       (let [query {
+	                    :start (read-node-text m :results-start)
+	                    :end (read-node-text m :results-end)
+	                    :total (read-node-text m :total-results)
+	                    :query (read-node-text m :query)
+	                   }]
+	         ;(save-detailed-info book)
+	         query
+	   )))]
+    query
+    ))
+
+(defn parse-with-pagination
+  "Add pagination data to response"
+  [response page]
+  (let [books (parse-response response)
+        pagination (parse-pagination response)]
+     {:books books :pagination (assoc pagination :page page)} ))
 
 
 (defn get-similar
@@ -129,5 +153,6 @@
 
 (defn search
   "Search books based on term"
-  [term]
-  (parse-response (get-xml-response (str "https://www.goodreads.com/search.xml?q=" (URLEncoder/encode term) "&key=" (get-api-key)))))
+  ([term] (search term 1))
+  ([term page]
+    (parse-with-pagination (get-xml-response (str "https://www.goodreads.com/search.xml?q=" (URLEncoder/encode term) "&key=" (get-api-key) "&page=" page)) page)))

@@ -10,7 +10,19 @@
   [data]
   (if (contains? data :id)
     (let [user (n4j/read-node (Integer/parseInt (:id data)))]
-      (n4j/update-node user data))
+      (n4j/update-node user (let [new-data {
+                                            :name (:name data)
+                                            :surname (:surname data)
+                                            :email (:email data)
+                                            :username (:username data)
+                                            :password (:password data)
+                                            :city (:city data)
+                                            :country (:country data)
+                                            :id (:id user)
+                                            :is_admin (:is_admin (:data user))
+                                            }]
+                              (if (= (:id new-data) (:id (session-get :user))) (session-put! :user new-data))
+                              new-data)))
     
     (n4j/create-node "User" {
            :name (:name data)

@@ -82,7 +82,7 @@
 						u.city, 
 						u.country,
             u.is_admin")))]
-  (session-put! :user {:id id :name name :surname surname :city city :username username :country country :admin admin}))
+  (session-put! :user {:id id :name name :surname surname :city city :username username :country country :is_admin admin}))
     (if (= (session-get :user) nil)
       (flash-put! :session-message-warning "Wrong username or password"))
 	(session-put! :login-try 1)))

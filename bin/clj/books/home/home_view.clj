@@ -15,7 +15,7 @@
   [:div.script] (en/content {:tag :script,
 			     :attrs {:src "js/app.js"},
 			     :content nil})
-  [:li.adminonly] (en/content (if(:admin (session-get :user)) {:tag :a, :attrs {:href "/#/users"} :content "Users"} nil))
+  [:li.adminonly] (en/content (if(:is_admin (session-get :user)) {:tag :a, :attrs {:href "/#/users"} :content "Users"} nil))
   )
 
 
