@@ -26,7 +26,7 @@ Dependencies:
 
 ### How to start it
 
-This app requres Neo4j server instance (2.0+, labels support necesary), running on port 7474. Also, port 3000 needs to be available on machine, cause that is port which will web server use.
+This app requres Neo4sj server instance (2.0+, labels support necesary), running on port 7474. Also, port 3000 needs to be available on machine, cause that is port which will web server use.
 
 After all this is ready, clojurescript code can be compiled using command:
 
